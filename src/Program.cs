@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using Pastel;
+using CreateBackpack;
 
 namespace Mountians_Planner
 
@@ -18,6 +19,7 @@ namespace Mountians_Planner
                 Console.WriteLine("2 Show Tracks list ");
                 Console.WriteLine("3 Add friend to tracke ");
                 Console.WriteLine("4 Exit");
+                Console.WriteLine("5: plan your equipment");
 
                 string choose = Console.ReadLine() ?? "";
 
@@ -40,6 +42,10 @@ namespace Mountians_Planner
                    default:
                    Console.WriteLine("Erro");
                    break;
+
+                   case "5":
+                    Backpack()
+                    Console.WriteLine("");
 
                 }
                 
