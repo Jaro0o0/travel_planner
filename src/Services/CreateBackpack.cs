@@ -1,43 +1,69 @@
 using System;
 using System.Drawing;
+using System.Collections.Generic;
 
-namespace CreateBackpack
 
-public static class Backpack {
+//nesescary elements
+// taask count
+// for loop for each elemnt dispaly
+// wybierbai po liczbie int
 
-    static public List<int> Backpack = new List<int>();
+namespace CreateBackpack;
 
+public class Backpack {
+
+    static public string[] Backpack = new string[6];
+
+    static void Main()
     {
-        static void Main()
+        Console.WriteLine("Create your backpack for your trip");
+        Console.WriteLine("Enter the name of your backpack: ");
+        string backpackName = Console.ReadLine();
+
+
+        Console.WriteLine(backpackName);
+
+        Console.WriteLine("Choose option");
+        string Option = int.Parse(Console.ReadLine());
+
+        public static int counter = 0;
+
+       
+
+
+    }
+
+    static public void SelectSize(){
+
+        Console.WriteLine("Select your backpack size ");
+        int BackpackSize =  int.Parse(Console.ReadLine());
+
+        Backpack =  new string[BackpackSize];
+    }
+
+    static public void Add(){
+        Console.WriteLine("Add your elements");
+        Backpack[counter] = Console.ReadLine();
+        counter++;
+
+    }
+
+    static void ShowwBackpack()
+    {
+        for (int i=0; i< Backpack.Length; i++)
         {
-            Console.WriteLine("Create your backpack for your trip");
-            Console.WriteLine("Enter the name of your backpack: ");
-            string backpackName = Console.ReadLine();
-        
+            Console.WriteLine(Backpack[i]);
 
         }
+    }
 
-        
+    static void Mark()
+    {
+        Console.WriteLine("Whith item you want to consider: ");
+        int ItemNumber = int.Parse(Console.ReadLine());
 
-        static public SelectSize(){
+        Backpack[ItemNumber] = Backpack[ItemNumber] + "$Choose {ItemNumber}";
 
-            Console.WriteLine("Select your backpack size ")
-            string BackpackSize =  Convert.ToInt32(Console.ReadLine()) 
-
-            Backpack =  new int[BackpackSize]
-
-            
-            
-        }
-
-        static public Add(){
-            Console.WriteLine("Add your elements");
-            
-            
-            
-        }
-
-        
     }
 
 }

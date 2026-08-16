@@ -9,13 +9,13 @@ namespace Mountians_Planner
     class Program
     {
         static void Main(){
-            Point point = new Point();
+        
 
             while (true)
             {
                 Console.WriteLine("###Trials_planner###".Pastel(Color.Blue));
                 Console.WriteLine("choose option");
-                Console.WriteLine("1 Plan our track ");
+                Console.WriteLine("1 Add new trip ");
                 Console.WriteLine("2 Show Tracks list ");
                 Console.WriteLine("3 Add friend to tracke ");
                 Console.WriteLine("4 Exit");
@@ -30,8 +30,29 @@ namespace Mountians_Planner
                     
                     Console.WriteLine("Okay set Mountain: ");
                     string MountainName = Console.ReadLine() ?? "";
-                    point.SetMountain(MountainName);
-                    Console.WriteLine("Mountain set: " + point.MountainName);
+                    // point.SetMountain(MountainName);
+                    // Console.WriteLine("Mountain set: " + point.MountainName);
+
+                    Console.WriteLine('choose your kind of travel');
+                    Console.WriteLine('1: Standard travel');
+                    Console.WriteLine('2: Moluntain Teavel');
+
+                    string TravelKind = Console.ReadLine().Trim();
+
+                        switch (TravelKind)
+                        {
+                            case "1":
+                                Console.WriteLine("Where you wanto to travel");
+                                string TeavelPalce = Console.ReadLine().Trim();
+                                
+
+
+
+
+                            
+
+
+                        }
 
                    break;
 
@@ -44,8 +65,9 @@ namespace Mountians_Planner
                    break;
 
                    case "5":
-                    Backpack()
+                    Backpack.SelectSize();
                     Console.WriteLine("");
+                    break;
 
                 }
                 
@@ -61,32 +83,26 @@ namespace Mountians_Planner
     
     }
 
-    class Point
-    {
+//     class Point
+//     {
 
-        public string MountainName { get; set; } = "";
+//         public string MountainName { get; set; } = "";
 
-        public void SetMountain(string mountain){
+//         public void SetMountain(string mountain){
 
-            MountainName = mountain;
+//             MountainName = mountain;
 
             
 
-        }
-        
-    }
-
-    class Travel
-    {
-        public string TravelName { get; set; } = "";
-        public DateTime StartDate { get; set; }
-        public int Days { get; set; }
-        
+//         }
 
         
-    }
+        
+//     }
+
+
 
     
 
     
-}
+// }
