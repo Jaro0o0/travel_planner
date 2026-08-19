@@ -2,9 +2,11 @@
 using System.Drawing;
 using System.Threading.Tasks;
 using Pastel;
+using TravelPlanner.Interfaces;
+using  TravelPlanner.Interfaces;
 // using CreateBackpack;
 
-namespace ShareTravelPlace
+namespace TravelPlanner
 {
     class Program
     {
@@ -16,7 +18,6 @@ namespace ShareTravelPlace
                 Console.WriteLine("choose option");
                 Console.WriteLine("1 Add new trip ");
                 Console.WriteLine("2 Show Tracks list ");
-                Console.WriteLine("3 Add friend to tracke ");
                 Console.WriteLine("4 Exit");
                 Console.WriteLine("5: plan your equipment");
 
@@ -41,7 +42,8 @@ namespace ShareTravelPlace
                                 //Travel place info
                                 if (!string.IsNullOrWhiteSpace(travelPlace))
                                 {
-                                   await ShareTravelPalace.PlacesInfo();
+                                   await ShareTravelPalace.PlacesService.PlacesInfo(travelPlace);
+                                   Console.WriteLine("Do you want to add this place to your trip? (y/n)");
                                 }
                                 break;
                         }
@@ -50,6 +52,13 @@ namespace ShareTravelPlace
                     case "2":
                         Console.WriteLine("Exit");
                         return;
+                    
+                    case "3":
+
+                    case "4":
+                       return;
+                        
+
 
                     default:
                         Console.WriteLine("Erro");

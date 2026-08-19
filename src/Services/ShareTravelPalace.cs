@@ -1,42 +1,99 @@
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 using DotNetEnv;
 
-
-
 namespace ShareTravelPalace;
 
-//DAtaTypoe
-public class PlaceData
+public class DisplayName
 {
-    public string Name { get; set; }
-    public int Population { get; set; }
+    public string? Text { get; set; }
 }
 
-class SahrePlaces
+public class PlaceResult
 {
-    
+    public DisplayName? DisplayName { get; set; }
+    public string? FormattedAddress { get; set; }
+}
 
-   public static async Task PlacesInfo()
+public class PlaceSearchResponse
+{
+    public List<PlaceResult>? Places { get; set; }
+}
+
+class PlacesService
+{
+    private static void LoadEnvFile()
     {
-        Env.Load();
+        DirectoryInfo? dir = new DirectoryInfo(Directory.GetCurrentDirectory());
+        while (dir != null)
+        {
+            string envPath = Path.Combine(dir.FullName, ".env");
+            if (File.Exists(envPath))
+            {
+                Env.Load(envPath);
+                return;
+            }
+
+            dir = dir.Parent;
+        }
+    }
+
+    public static async Task PlacesInfo(string placeName)
+    {
+        LoadEnvFile();
         string? apiKey = Environment.GetEnvironmentVariable("GOOGLE_PLACES_API_KEY");
 
-        string url = $"https://places.googleapis.com/v1/places/GyuEmsRBfy61i59si0?fields=addressComponents&key={apiKey}";
+        if (string.IsNullOrWhiteSpace(apiKey))
+        {
+            Console.WriteLine("Error: GOOGLE_PLACES_API_KEY is not set.");
+            return;
+        }
+
         using HttpClient client = new HttpClient();
+        client.DefaultRequestHeaders.Add("X-Goog-Api-Key", apiKey);
+        client.DefaultRequestHeaders.Add("X-Goog-FieldMask", "places.displayName,places.formattedAddress");
+
+        string requestBody = JsonSerializer.Serialize(new { textQuery = placeName });
+        using StringContent content = new StringContent(requestBody, Encoding.UTF8, "application/json");
 
         try
         {
-            HttpResponseMessage response = await client.GetAsync(url);
-            string Data = await response.Content.ReadAsStringAsync();
-            PlaceData? PlaceInfo = JsonSerializer.Deserialize<PlaceData>(Data);
+            HttpResponseMessage response = await client.PostAsync(
+                "https://places.googleapis.com/v1/places:searchText", content);
+            string data = await response.Content.ReadAsStringAsync();
 
-            Console.WriteLine(PlaceInfo);
+            if (!response.IsSuccessStatusCode)
+            {
+                Console.WriteLine($"Error: API returned {(int)response.StatusCode}");
+                Console.WriteLine(data);
+                return;
+            }
+
+            JsonSerializerOptions options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            PlaceSearchResponse? result = JsonSerializer.Deserialize<PlaceSearchResponse>(data, options);
+
+            if (result?.Places == null || result.Places.Count == 0)
+            {
+                Console.WriteLine($"No places found for '{placeName}'.");
+                return;
+            }
+
+            foreach (PlaceResult place in result.Places)
+            {
+                Console.WriteLine($"Name: {place.DisplayName?.Text}");
+                Console.WriteLine($"Address: {place.FormattedAddress}");
+            }
         }
         catch (HttpRequestException e)
         {
             Console.WriteLine($"Error: {e.Message}");
+        }
+        catch (JsonException e)
+        {
+            Console.WriteLine($"Error parsing response: {e.Message}");
         }
     }
 }
