@@ -44,6 +44,11 @@ namespace TravelPlanner
                                 {
                                    await ShareTravelPalace.PlacesService.PlacesInfo(travelPlace);
                                    Console.WriteLine("Do you want to add this place to your trip? (y/n)");
+                                   if (Console.ReadLine().Trim().ToLower() == "y")
+                                   {
+                                       
+                                       
+                                   }
                                 }
                                 break;
                         }

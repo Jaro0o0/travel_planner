@@ -73,7 +73,8 @@ class PlacesService
             }
 
             JsonSerializerOptions options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-            PlaceSearchResponse? result = JsonSerializer.Deserialize<PlaceSearchResponse>(data, options);
+            return PlaceSearchResponse? result = JsonSerializer.Deserialize<PlaceSearchResponse>(data, options);
+
 
             if (result?.Places == null || result.Places.Count == 0)
             {
