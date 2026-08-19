@@ -1,70 +1,70 @@
-using System;
-using System.Drawing;
-using System.Collections.Generic;
+// using System;
+// using System.Drawing;
+// using System.Collections.Generic;
 
 
-//nesescary elements
-// taask count
-// for loop for each elemnt dispaly
-// wybierbai po liczbie int
+// //nesescary elements
+// // taask count
+// // for loop for each elemnt dispaly
+// // wybierbai po liczbie int
 
-namespace CreateBackpack;
+// namespace CreateBackpack;
 
-public class Backpack {
+// public class Backpack {
 
-    static public string[] Backpack = new string[6];
+//     static public string[] Backpack = new string[6];
 
-    static void Main()
-    {
-        Console.WriteLine("Create your backpack for your trip");
-        Console.WriteLine("Enter the name of your backpack: ");
-        string backpackName = Console.ReadLine();
+//     static void Main()
+//     {
+//         Console.WriteLine("Create your backpack for your trip");
+//         Console.WriteLine("Enter the name of your backpack: ");
+//         string backpackName = Console.ReadLine();
 
 
-        Console.WriteLine(backpackName);
+//         Console.WriteLine(backpackName);
 
-        Console.WriteLine("Choose option");
-        string Option = int.Parse(Console.ReadLine());
+//         Console.WriteLine("Choose option");
+//         string Option = int.Parse(Console.ReadLine());
 
-        public static int counter = 0;
+//         public static int counter = 0;
 
        
 
 
-    }
+//     }
 
-    static public void SelectSize(){
+//     static public void SelectSize(){
 
-        Console.WriteLine("Select your backpack size ");
-        int BackpackSize =  int.Parse(Console.ReadLine());
+//         Console.WriteLine("Select your backpack size ");
+//         int BackpackSize =  int.Parse(Console.ReadLine());
 
-        Backpack =  new string[BackpackSize];
-    }
+//         Backpack =  new string[BackpackSize];
+//     }
 
-    static public void Add(){
-        Console.WriteLine("Add your elements");
-        Backpack[counter] = Console.ReadLine();
-        counter++;
+//     static public void Add(){
+//         Console.WriteLine("Add your elements");
+//         Backpack[counter] = Console.ReadLine();
+//         counter++;
 
-    }
+//     }
 
-    static void ShowwBackpack()
-    {
-        for (int i=0; i< Backpack.Length; i++)
-        {
-            Console.WriteLine(Backpack[i]);
+//     static void ShowwBackpack()
+//     {
+//         for (int i=0; i< Backpack.Length; i++)
+//         {
+//             Console.WriteLine(Backpack[i]);
 
-        }
-    }
+//         }
+//     }
 
-    static void Mark()
-    {
-        Console.WriteLine("Whith item you want to consider: ");
-        int ItemNumber = int.Parse(Console.ReadLine());
+//     static void Mark()
+//     {
+//         Console.WriteLine("Whith item you want to consider: ");
+//         int ItemNumber = int.Parse(Console.ReadLine());
 
-        Backpack[ItemNumber] = Backpack[ItemNumber] + "$Choose {ItemNumber}";
+//         Backpack[ItemNumber] = Backpack[ItemNumber] + "$Choose {ItemNumber}";
 
-    }
+//     }
 
-}
+// }
 

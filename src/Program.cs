@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Drawing;
+using System.Threading.Tasks;
 using Pastel;
-using CreateBackpack;
+// using CreateBackpack;
 
-namespace Mountians_Planner
-
+namespace ShareTravelPlace
 {
     class Program
     {
-        static void Main(){
-        
-
+        static async Task Main()
+        {
             while (true)
             {
                 Console.WriteLine("###Trials_planner###".Pastel(Color.Blue));
@@ -25,84 +24,43 @@ namespace Mountians_Planner
 
                 switch (choose)
                 {
-                    
-                   case "1":
-                    
-                    Console.WriteLine("Okay set Mountain: ");
-                    string MountainName = Console.ReadLine() ?? "";
-                    // point.SetMountain(MountainName);
-                    // Console.WriteLine("Mountain set: " + point.MountainName);
+                    case "1":
+                
 
-                    Console.WriteLine('choose your kind of travel');
-                    Console.WriteLine('1: Standard travel');
-                    Console.WriteLine('2: Moluntain Teavel');
+                        Console.WriteLine("choose your kind of travel");
+                        Console.WriteLine("1: Standard travel");
+                        Console.WriteLine("2: Moluntain Teavel");
 
-                    string TravelKind = Console.ReadLine().Trim();
+                        string travelKind = Console.ReadLine()?.Trim() ?? "";
 
-                        switch (TravelKind)
+                        switch (travelKind)
                         {
                             case "1":
                                 Console.WriteLine("Where you wanto to travel");
-                                string TeavelPalce = Console.ReadLine().Trim();
-                                
-
-
-
-
-                            
-
-
+                                string travelPlace = Console.ReadLine()?.Trim() ?? "";
+                                //Travel place info
+                                if (!string.IsNullOrWhiteSpace(travelPlace))
+                                {
+                                   await ShareTravelPalace.PlacesInfo();
+                                }
+                                break;
                         }
+                        break;
 
-                   break;
+                    case "2":
+                        Console.WriteLine("Exit");
+                        return;
 
-                   case "2":
-                   Console.WriteLine("Exit");
-                   return;
+                    default:
+                        Console.WriteLine("Erro");
+                        break;
 
-                   default:
-                   Console.WriteLine("Erro");
-                   break;
-
-                   case "5":
-                    Backpack.SelectSize();
-                    Console.WriteLine("");
-                    break;
-
+                    // case "5":
+                    //     Backpack.SelectSize();
+                    //     Console.WriteLine("");
+                    //     break;
                 }
-                
             }
-
-            
-               
-
-        
-
-
         }
-    
     }
-
-//     class Point
-//     {
-
-//         public string MountainName { get; set; } = "";
-
-//         public void SetMountain(string mountain){
-
-//             MountainName = mountain;
-
-            
-
-//         }
-
-        
-        
-//     }
-
-
-
-    
-
-    
-// }
+}

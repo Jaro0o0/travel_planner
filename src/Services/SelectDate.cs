@@ -1,47 +1,39 @@
 using System;
 using System.Drawing;
-using Spectre.Console;
-using Pastel;
-
 using System.Net.Http;
 using System.Threading.Tasks;
+using Pastel;
 
 namespace Date;
 
-// na pdostwaie daty pogoda
-public static class DateManager {
-
-    public static void ChooseDate(){
-
-        while (true) {
+public static class DateManager
+{
+    public static void ChooseDate()
+    {
+        while (true)
+        {
             Console.WriteLine("Choose date for your trip: ".Pastel(Color.Blue));
-            string dateString Console.ReadLine();
+            string? dateString = Console.ReadLine();
 
-            if(DateTime.TryParse(dateString, out DateTime TravelDate))
+            if (string.IsNullOrWhiteSpace(dateString))
             {
-                Console.WriteLine($" Your travel date is {TravelDate.ToShortDateString()}")
+                Console.WriteLine("Wrong date");
+                continue;
+            }
+
+            if (DateTime.TryParse(dateString, out DateTime travelDate))
+            {
+                Console.WriteLine($"Your travel date is {travelDate.ToShortDateString()}");
                 break;
             }
-            else
-            {
-                Console.WriteLine('Wrong date')
-            }
 
-     
-
-      
-
+            Console.WriteLine("Wrong date");
         }
     }
 
-    static async GetWeatherForecast()
+    public static async Task GetWeatherForecast()
     {
-        using (HttpClient client = new HttpClient())
-
-        try
-            {
-                
-            }
-    
-
+        using HttpClient client = new HttpClient();
+        await Task.CompletedTask;
+    }
 }
