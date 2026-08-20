@@ -42,11 +42,13 @@ namespace TravelPlanner
                                 //Travel place info
                                 if (!string.IsNullOrWhiteSpace(travelPlace))
                                 {
-                                   await ShareTravelPalace.PlacesService.PlacesInfo(travelPlace);
+                                   string PlacesData = await ShareTravelPalace.PlacesService.PlacesInfo(travelPlace);
+
                                    Console.WriteLine("Do you want to add this place to your trip? (y/n)");
+
                                    if (Console.ReadLine().Trim().ToLower() == "y")
                                    {
-                                       
+                                       Places
                                        
                                    }
                                 }
