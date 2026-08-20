@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Drawing;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using Pastel;
-using TravelPlanner.Interfaces;
 using ShareTravelPalace;
+using Services;
 using Microsoft.Data.Sqlite;
 
 // using CreateBackpack;
@@ -12,6 +13,8 @@ namespace TravelPlanner
 {
     class Program
     {
+
+        // diaspley equipment
         static async Task Main()
         {
             while (true)
@@ -45,7 +48,10 @@ namespace TravelPlanner
                                 if (!string.IsNullOrWhiteSpace(travelPlace))
                                 {
                                    Place? PlacesData = await ShareTravelPalace.PlacesService.PlacesInfo(travelPlace);
-
+                                   Console.WriteLine($"Place: {PlacesData?.DisplayName?.Text}");
+                                
+                                   Console.WriteLine($"Address: {PlacesData?.FormattedAddress}"); 
+                                   Console.WriteLine("Do you want to save this place? (y/n)");
                                    string userChoice = Console.ReadLine()?.Trim().ToLower() ?? "";
 
                                    if (userChoice == "y")
@@ -57,6 +63,7 @@ namespace TravelPlanner
                                        using SqliteCommand command = connection.CreateCommand();
                                        command.CommandText = "  INSERT INTO Trips (Destination, StartDate, EndDate) VALUES (@destination, @startDate, @endDate)";
                                        command.ExecuteNonQuery();
+                                       
 
                                    }
                                    else
@@ -69,10 +76,60 @@ namespace TravelPlanner
                         break;
 
                     case "2":
-                        Console.WriteLine("Exit");
-                        return;
+
+                        // Show actual Travel
+                        using SqliteConnection connection = new SqliteConnection("Data Source=travel.db");
+                        connection.Open();
+                        
+                        using SqliteCommand command = connection.CreateCommand();
+                        command.CommandText = "SELECT * FROM Trips";
+                        command.ExecuteNonQuery();
+
+
+                        using SqliteDataReader reader = command.ExecuteReader();
+
+                        while(reader.Read())
+                        {
+                            Trip trip = new Trip(
+                                reader.GetInt32(reader.GetOrdinal("Id")),
+                                reader.GetString(reader.GetOrdinal("Destination")),
+                                reader.GetDateTime(reader.GetOrdinal("StartDate")),
+                                reader.GetDateTime(reader.GetOrdinal("EndDate"))
+                            );
+
+                            //List of trips
+                            List<ISTrip> trips = new List<ISTrip>();
+                            trips.Add(trip);
+                            Console.WriteLine($"Destination: {reader["Destination"]}, Start Date: {reader["StartDate"]}, End Date: {reader["EndDate"]}");
+                        }
+
+                        //Show all tra
+                        Console.WriteLine("Do you want to see all trips? (y/n)");
+                        string UserChoose = Console.ReadLine();
+                        if(UserChoose.Trim().ToLower() == "y")
+                        {
+                            Console.WriteLine("All trips:");
+                            foreach (var trip in trips)
+                            {
+                                Console.WriteLine($"Destination: {trip.Destination}, Start Date: {trip.StartDate}, End Date: {trip.EndDate}");
+                            }
+                           
+                        }
+                        else
+                        {
+                            Console.WriteLine("YOu don't have any travel yet");
+                            
+
+
+                        }
+                         break;
+                      
+                    
+                
                     
                     case "3":
+                        Console.WriteLine('Plan yoru equipment');
+
 
                     case "4":
                        return;
