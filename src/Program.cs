@@ -3,7 +3,9 @@ using System.Drawing;
 using System.Threading.Tasks;
 using Pastel;
 using TravelPlanner.Interfaces;
-using  TravelPlanner.Interfaces;
+using ShareTravelPalace;
+using Microsoft.Data.Sqlite;
+
 // using CreateBackpack;
 
 namespace TravelPlanner
@@ -42,14 +44,24 @@ namespace TravelPlanner
                                 //Travel place info
                                 if (!string.IsNullOrWhiteSpace(travelPlace))
                                 {
-                                   string PlacesData = await ShareTravelPalace.PlacesService.PlacesInfo(travelPlace);
+                                   Place? PlacesData = await ShareTravelPalace.PlacesService.PlacesInfo(travelPlace);
 
-                                   Console.WriteLine("Do you want to add this place to your trip? (y/n)");
+                                   string userChoice = Console.ReadLine()?.Trim().ToLower() ?? "";
 
-                                   if (Console.ReadLine().Trim().ToLower() == "y")
+                                   if (userChoice == "y")
                                    {
-                                       Places
-                                       
+                                       // TODO: implement place saving
+                                       using SqliteConnection connection = new SqliteConnection("Data Source=travel.db");
+                                       connection.Open();
+
+                                       using SqliteCommand command = connection.CreateCommand();
+                                       command.CommandText = "  INSERT INTO Trips (Destination, StartDate, EndDate) VALUES (@destination, @startDate, @endDate)";
+                                       command.ExecuteNonQuery();
+
+                                   }
+                                   else
+                                   {
+                                       Console.WriteLine("Place not saved.");
                                    }
                                 }
                                 break;

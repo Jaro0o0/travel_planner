@@ -117,5 +117,5 @@ class PlacesService
             Console.WriteLine($"JSON Error: {e.Message}");
             return null;
         }
-        
     }
+}

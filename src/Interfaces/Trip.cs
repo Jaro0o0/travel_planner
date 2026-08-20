@@ -10,5 +10,4 @@ namespace TravelPlanner.Interfaces
         DateTime EndDate { get; }
     }
 
-    public interface
 }
