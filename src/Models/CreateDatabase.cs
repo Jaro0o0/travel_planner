@@ -1,11 +1,16 @@
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.CompilerServices;
 using Microsoft.Data.Sqlite;
 
 public class DataBase
 {
-    private readonly string ConectString = "Data Source=travel.db";
+    private readonly string ConectString = "Data Source=src/Models/travel.db";
 
     public void CreateDatabase()
     {
+
+        
+
         using SqliteConnection connection = new SqliteConnection(ConectString);
         connection.Open();
 

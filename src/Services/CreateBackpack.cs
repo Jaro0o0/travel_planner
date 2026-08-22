@@ -13,8 +13,9 @@ namespace CreateBackpack;
 public class CreateBackpack {
 
     static public string[] Backpack = new string[6];
+    static public int counter = 0;
 
-    static public void CreateBackpack()
+    static public void InitBackpack()
     {
         Console.WriteLine("Create your backpack for your trip");
         Console.WriteLine("Enter the name of your backpack: ");
@@ -24,13 +25,7 @@ public class CreateBackpack {
         Console.WriteLine(backpackName);
 
         Console.WriteLine("Choose option");
-        string Option = int.Parse(Console.ReadLine());
-
-        public static int counter = 0;
-
-       
-
-
+        int Option = int.Parse(Console.ReadLine());
     }
 
     static public void SelectSize(){

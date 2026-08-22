@@ -1,4 +1,4 @@
-using System
+using System;
 
 
 
@@ -7,7 +7,8 @@ namespace Services
 {
     public interface ISEquipment
     {
-        void DisplayuEquipment();
+        void DisplayEquipment();
+        
     }
 
     public class Equipment :  ISEquipment

@@ -12,7 +12,8 @@ namespace Services
 
     public ISEquipment Equipment {get; private set;}
 
-    public Trip(int id, string destination, DateTime startDate, DateTime endDate, IsEquipment equipment)
+
+    public Trip(int id, string destination, DateTime startDate, DateTime endDate, ISEquipment? equipment = null)
     {
         Id = id;
         Destination = destination;
@@ -20,6 +21,12 @@ namespace Services
         EndDate = endDate;
         Equipment = equipment;
     }
+
+    public void WeatherForecast()
+        {
+            Console.WriteLine($"Weather forecast for {Destination} from {StartDate.ToShortDateString()} to {EndDate.ToShortDateString()}:");
+            // Here you can implement the logic to fetch and display the weather forecast for the trip destination and dates.
+        }
 
 }
 }
