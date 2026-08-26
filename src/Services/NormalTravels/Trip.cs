@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace Services
 {
-    public class Trip : ISTrip
+    public class Trip : ITrip
 {
     public int Id { get; private set; }
     public string Destination { get; private set; }
@@ -22,7 +22,7 @@ namespace Services
         Equipment = equipment;
     }
 
-    public void WeatherForecast()
+    public void ShowWeather()
         {
             Console.WriteLine($"Weather forecast for {Destination} from {StartDate.ToShortDateString()} to {EndDate.ToShortDateString()}:");
             // Here you can implement the logic to fetch and display the weather forecast for the trip destination and dates.

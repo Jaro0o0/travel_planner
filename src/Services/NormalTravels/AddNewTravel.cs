@@ -39,11 +39,29 @@ public class AddNewTravel
                                        using SqliteConnection connection = new SqliteConnection("Data Source=src/Models/travel.db");
                                        connection.Open();
 
+                                       
                                        using SqliteCommand command = connection.CreateCommand();
+                                       using SqliteDataReader reader = command.ExecuteReader();
                                        command.CommandText = "INSERT INTO Trips (Destination, StartDate, EndDate) VALUES (@destination, @startDate, @endDate)";
                                        command.Parameters.AddWithValue("@destination", PlacesData?.DisplayName?.Text ?? travelPlace);
                                        command.Parameters.AddWithValue("@startDate", DateTime.Now.ToString("yyyy-MM-dd"));
                                        command.Parameters.AddWithValue("@endDate", DateTime.Now.ToString("yyyy-MM-dd"));
+
+                                       //Create object 
+                                        while(reader.Read())
+                                            {
+                                                Console.WriteLine($"Destination: {reader["Destination"]}, Start Date: {reader["StartDate"]}, End Date: {reader["EndDate"]}");
+                                                Trip Travel = new Trip(
+                                                    Convert.ToInt32(reader["Id"]),
+                                                    reader["Destination"].ToString() ?? "",
+                                                    Convert.ToDateTime(reader["StartDate"]),
+                                                    Convert.ToDateTime(reader["EndDate"])
+
+                                                );
+                                                List<Trip> trips = new List<Trip>();
+                                                trips.Add(Travel);
+
+                                             }
                                        command.ExecuteNonQuery();
 
                                        Console.WriteLine("Place saved!");
