@@ -57,7 +57,7 @@ public class CreateBackpack {
         Console.WriteLine("Whith item you want to consider: ");
         int ItemNumber = int.Parse(Console.ReadLine());
 
-        Backpack[ItemNumber] = Backpack[ItemNumber] + "$Choose {ItemNumber}";
+        Backpack[ItemNumber] = Backpack[ItemNumber] + $"Choose {ItemNumber}";
         
 
     }

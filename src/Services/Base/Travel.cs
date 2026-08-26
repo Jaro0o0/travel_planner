@@ -14,7 +14,10 @@ namespace Services
             Eq = equipment ;
         }   
 
-        public virtual void ShowWeather(){}
+        public virtual void ShowWeather()
+        {
+            Console.WriteLine("Travel Weather");
+        }
     }
 
     

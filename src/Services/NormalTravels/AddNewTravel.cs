@@ -8,7 +8,7 @@ namespace  Services
 {
     
 
-public class PlanTrave
+public class AddNewTravel
 {
     public async static Task AddNewTrip()
         {

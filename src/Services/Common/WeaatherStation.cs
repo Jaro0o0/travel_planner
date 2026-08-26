@@ -6,7 +6,7 @@ namespace Services
     public class WeatherStation
     {
        private List<IWeatherStation> Weathers  = new List<IWeatherStation>();
-       private float temperature;
+       private float CityName;
 
 
     public void RegisterObserver(IWeatherStation observer)
@@ -28,9 +28,9 @@ namespace Services
             }
         }
 
-    public void SetTemperature(float newTemperature)
+    public void SetTemperature(string cityName)
         {
-            temperature = newTemperature;
+            CityName = cityName;
             NotifiObservers();
 
         }
