@@ -6,7 +6,7 @@ namespace Services
     }
     public class TripFactory
     {
-         public ITrip Create( string type)
+         public ITrip Create( string type )
         {
             if(type == "normal")
             {

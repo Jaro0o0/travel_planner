@@ -4,7 +4,7 @@ namespace Services
 {
     public class TracksList
     {
-        public void ShowTracksList()
+        public static void ShowTracksList()
         {
              // Show actual Travel
                         using SqliteConnection connection = new SqliteConnection("Data Source=src/Models/travel.db");

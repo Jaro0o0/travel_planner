@@ -23,12 +23,12 @@ namespace Services
         {
             foreach(var observer in Weathers)
             {
-                observer.Update(temperature);
+                observer.Update(CityName);
 
             }
         }
 
-    public void SetTemperature(string cityName)
+    public void SetTemperature(float cityName)
         {
             CityName = cityName;
             NotifiObservers();

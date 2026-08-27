@@ -5,9 +5,9 @@ namespace Services
 {
     public class MountainWeatherObserver : IWeatherStation
     {
-        public void Update(string cityName);
-
-
-       
+        public void Update(float temperature)
+        {
+            Console.WriteLine($"Temperature: {temperature}");
+        }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Net.Http;
 using Microsoft.Data.Sqlite;
 using System.Threading.Tasks;
+using ShareTravelPalace;
 
 
 namespace  Services
@@ -26,56 +27,58 @@ public class AddNewTravel
                                 //Travel place info
                                 if (!string.IsNullOrWhiteSpace(travelPlace))
                                 {
-                                   Place? PlacesData = await ShareTravelPalace.PlacesService.PlacesInfo(travelPlace);
+                                   Place? PlacesData = await PlacesService.PlacesInfo(travelPlace);
                                    Console.WriteLine($"Place: {PlacesData?.DisplayName?.Text}");
                                 
                                    Console.WriteLine($"Address: {PlacesData?.FormattedAddress}"); 
+                                   //Weather Data
+                                   var WeatherData = await WeatherAPi.GetWeather(PlacesData?.FormattedAddress);
+
+                                   Console.WriteLine($"Description: {WeatherData?.Description}");
+                                   Console.WriteLine($"Temperature: {WeatherData?.Temperature}");
+                                   Console.WriteLine($"Wind: {WeatherData?.Wind}");
+
                                    Console.WriteLine("Do you want to save this place? (y/n)");
                                    string userChoice = Console.ReadLine()?.Trim().ToLower() ?? "";
 
                                    //Adding palcee 
                                    if (userChoice == "y")
-                                   {
-                                       using SqliteConnection connection = new SqliteConnection("Data Source=src/Models/travel.db");
-                                       connection.Open();
+                                    {
 
-                                       
-                                       using SqliteCommand command = connection.CreateCommand();
-                                       using SqliteDataReader reader = command.ExecuteReader();
-                                       command.CommandText = "INSERT INTO Trips (Destination, StartDate, EndDate) VALUES (@destination, @startDate, @endDate)";
-                                       command.Parameters.AddWithValue("@destination", PlacesData?.DisplayName?.Text ?? travelPlace);
-                                       command.Parameters.AddWithValue("@startDate", DateTime.Now.ToString("yyyy-MM-dd"));
-                                       command.Parameters.AddWithValue("@endDate", DateTime.Now.ToString("yyyy-MM-dd"));
+                                        //Equipment 
+                                        BackPackFactory.Create("normal");
+                                        
+                                        using SqliteConnection connection = new SqliteConnection("Data Source=src/Models/travel.db");
+                                        connection.Open();
 
-                                       //Create object 
-                                        while(reader.Read())
-                                            {
-                                                Console.WriteLine($"Destination: {reader["Destination"]}, Start Date: {reader["StartDate"]}, End Date: {reader["EndDate"]}");
-                                                Trip Travel = new Trip(
-                                                    Convert.ToInt32(reader["Id"]),
-                                                    reader["Destination"].ToString() ?? "",
-                                                    Convert.ToDateTime(reader["StartDate"]),
-                                                    Convert.ToDateTime(reader["EndDate"])
 
-                                                );
-                                                List<Trip> trips = new List<Trip>();
-                                                trips.Add(Travel);
 
-                                             }
-                                       command.ExecuteNonQuery();
+                                        using SqliteCommand command = connection.CreateCommand();
+                                        command.CommandText = "INSERT INTO Trips (Destination, StartDate, EndDate) VALUES (@destination, @startDate, @endDate)";
+                                        command.Parameters.AddWithValue("@destination", PlacesData?.DisplayName?.Text ?? travelPlace);
+                                        command.Parameters.AddWithValue("@startDate", DateTime.Now.ToString("yyyy-MM-dd"));
+                                        command.Parameters.AddWithValue("@endDate", DateTime.Now.ToString("yyyy-MM-dd"));
 
-                                       Console.WriteLine("Place saved!");
-                                   }
+                                        command.ExecuteNonQuery();
+
+                                      
+                                    }
                                    else
                                    {
                                        Console.WriteLine("Place not saved.");
                                    }
                                 }
                                 break;
+
                             default:
                                 Console.WriteLine("Invalid choice.");
                                 break;
-        }
+
+                            
+                                
+
+
+                        }
 }
 
 }
