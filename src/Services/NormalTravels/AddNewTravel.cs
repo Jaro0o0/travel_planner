@@ -38,6 +38,14 @@ public class AddNewTravel
                                    Console.WriteLine($"Temperature: {WeatherData?.Temperature}");
                                    Console.WriteLine($"Wind: {WeatherData?.Wind}");
 
+
+
+                                   //TravelPlan
+                                    Console.WriteLine("Make baackpack");
+                                    string UserBackpackChoose = Console.ReadLine();
+                                    var travelPlan = new TravelPlan(PlacesData?.DisplayName?.Text, WeatherData );
+
+                                   //SavePlae
                                    Console.WriteLine("Do you want to save this place? (y/n)");
                                    string userChoice = Console.ReadLine()?.Trim().ToLower() ?? "";
 
@@ -61,8 +69,7 @@ public class AddNewTravel
 
                                         command.ExecuteNonQuery();
 
-                                        //TravelPlan
-                                        var travelPlan = new TravelPlan(PlacesData?.DisplayName?.Text, WeatherData );
+                                        
 
                                       
                                     }

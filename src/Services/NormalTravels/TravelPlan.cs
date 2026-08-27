@@ -9,7 +9,7 @@ namespace Services
 {
 
     public class Clothes {
-        public bool Hoodie {get; set;}
+        public string Hoodie {get; set;}
         public string Boots {get; set;} = string.Empty;
         public string Tshirt {get; set;} = string.Empty;
 
@@ -43,14 +43,39 @@ namespace Services
 
         public void GeneratePlan(){
 
-            if (Weather?.Temperature is <= 15)
-            {
-                clothes.Hoodie = true;
-                clothes.Boots = "Recomend higher boots";
+            IBackpack backpack = BackPackFactory.Create("normal");
 
+
+            if (Weather?.Temperature <= 15)
+            {
+                clothes.Hoodie = "you should get hoodie";
+                clothes.Boots = "Recomend higher boots";
+                Console.WriteLine("Do yo want to add hoodie to your backpack (y/n)");
+                string UserChosoe = Console.ReadLine().Trim().ToLower() ?? "";
+
+                if(UserChosoe == "y")
+                {
+                    backpack.AddItem();
+
+                }
+                
 
 
             }
+            else
+            {
+                clothes.Hoodie = "hoodie is not nesescary";
+
+
+            }
+
+            if (Weather?.Wind >= 10)
+            {
+             Console.WriteLine("Warrning Very Strong wind");
+             Console.WriteLine("Make sure you are ready");    
+
+            }  
+
 
             Attractions attractions = new Attractions();
 

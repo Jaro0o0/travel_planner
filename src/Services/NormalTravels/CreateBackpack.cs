@@ -8,14 +8,17 @@ using System.Collections.Generic;
 // for loop for each elemnt dispaly
 // wybierbai po liczbie int
 
-namespace CreateBackpack;
+namespace Services{
 
-public class CreateBackpack {
+public class NormalBackpack : IBackpack {
 
-    static public string[] Backpack = new string[6];
-    static public int counter = 0;
 
-    static public void InitBackpack()
+    public List<string>  BackpacItems = new List<string>();
+
+
+    public int counter = 0;
+
+    public Backpack()
     {
         Console.WriteLine("Create your backpack for your trip");
         Console.WriteLine("Enter the name of your backpack: ");
@@ -28,7 +31,7 @@ public class CreateBackpack {
         int Option = int.Parse(Console.ReadLine());
     }
 
-    static public void SelectSize(){
+     public void SelectSize(){
 
         Console.WriteLine("Select your backpack size ");
         int BackpackSize =  int.Parse(Console.ReadLine());
@@ -36,14 +39,14 @@ public class CreateBackpack {
         Backpack =  new string[BackpackSize];
     }
 
-    static public void Add(){
+     public void AddItem(){
         Console.WriteLine("Add your elements");
         Backpack[counter] = Console.ReadLine();
         counter++;
 
     }
 
-    static void ShowwBackpack()
+     void  ShowBackpack()
     {
         for (int i=0; i< Backpack.Length; i++)
         {
@@ -64,3 +67,4 @@ public class CreateBackpack {
 
 }
 
+}

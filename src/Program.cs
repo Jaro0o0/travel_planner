@@ -1,11 +1,8 @@
-﻿using System;
-using System.Drawing;
-using System.Threading.Tasks;
-using System.Collections.Generic;
+﻿using System.Drawing;
 using Pastel;
-using ShareTravelPalace;
 using Services;
 using Microsoft.Data.Sqlite;
+using Spectre.Console;
 
 // using CreateBackpack;
 
@@ -15,11 +12,56 @@ namespace TravelPlanner
     {
 
         // diaspley equipment
-        static void Main()
+        static async Task Main()
         {
+            Console.WriteLine("To better experince you can add your interests do you wanto do that (y/n)");
+            string UserChoose = Console.ReadLine().Trim().ToLower() ?? "";
+
+            if(UserChoose == "y")
+            {
+
+                Console.WriteLine("Choose interest");
+                //choose intwrrests
+                var choice = AnsiConsole.Prompt(
+                    new SelectionPrompt<string>()
+                    .Title("Select an [green]environment[/]:")
+                    .AddChoices("Development", "Staging", "Production"));
+
+                     
+                AnsiConsole.MarkupLine($"Deploying to [blue]{choice}[/]");
+                
+                //Add interst to list            
+                List<string> UserInterests = new List<string>();
+
+                //ADD_ITEM
+                UserInterests.Add(Console.ReadLine() ?? "");
+                
+
+                
+
+                //Add to database
+                foreach(var interest in UserInterests )
+                {
+                    
+                    using SqliteConnection connection = new SqliteConnection("Data Source=src/Models/interests.db");
+                    connection.Open();
+
+                    using SqliteCommand command = connection.CreateCommand();
+                    command.CommandText = "INSERT INTO userInterests (Interests) VALUES (@interests)";
+                    command.Parameters.AddWithValue("@interests", interest );
+
+                }
+
+
+
+
+
+
+
+            }
             while (true)
             {
-                Console.WriteLine("###Trials_planner###".Pastel(Color.Blue));
+                Console.WriteLine("###Trials_planner###");
                 Console.WriteLine("choose option");
                 Console.WriteLine("1 Add new trip ");
                 //   Console.WriteLine("1 Show planp ");
@@ -30,6 +72,8 @@ namespace TravelPlanner
                 //    sync
                 //    suggest
                 //    Polly
+                // xuint
+                // Time ENd and Start
 
                 Console.WriteLine("2 Show Tracks list ");
                 Console.WriteLine("4 Exit");
@@ -41,7 +85,7 @@ namespace TravelPlanner
                 {
                     case "1":
                         Console.WriteLine("CASE: 1");
-                        Task.Run(async () => await AddNewTravel.AddNewTrip());
+                        await AddNewTravel.AddNewTrip();
                        
                         break;
 

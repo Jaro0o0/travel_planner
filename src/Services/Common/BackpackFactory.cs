@@ -1,8 +1,10 @@
+
 namespace Services
 {
     public interface IBackpack
     {
         void ShowBackpack();
+        void AddItem();
     }
     public class BackPackFactory 
     {
@@ -10,7 +12,7 @@ namespace Services
         {
             if (type == "normal")
             {
-                
+                 return new Backpack();
             }
 
             if (type == "mountain")
