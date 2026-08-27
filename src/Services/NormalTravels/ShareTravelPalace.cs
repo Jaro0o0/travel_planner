@@ -11,6 +11,7 @@ namespace ShareTravelPalace;
 
 public class Place
 {
+    public string? Id { get; set; }
     public DisplayName? DisplayName { get; set; }
     public string? FormattedAddress { get; set; }
 }
@@ -64,7 +65,7 @@ class PlacesService
 
         client.DefaultRequestHeaders.Add(
             "X-Goog-FieldMask",
-            "places.displayName,places.formattedAddress");
+            "places.id,places.displayName,places.formattedAddress");
 
         string requestBody = JsonSerializer.Serialize(new
         {

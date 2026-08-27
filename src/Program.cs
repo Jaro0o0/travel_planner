@@ -22,14 +22,14 @@ namespace TravelPlanner
                 Console.WriteLine("###Trials_planner###".Pastel(Color.Blue));
                 Console.WriteLine("choose option");
                 Console.WriteLine("1 Add new trip ");
-                  Console.WriteLine("1 Show planp ");
-                   Console.WriteLine("1 edit plan ");
-                   Console.WriteLine("1 remove ");
-                   budget
-                   caache
-                   sync
-                   suggest
-                   Polly
+                //   Console.WriteLine("1 Show planp ");
+                //    Console.WriteLine("1 edit plan ");
+                //    Console.WriteLine("1 remove ");
+                //    budget
+                //    caache
+                //    sync
+                //    suggest
+                //    Polly
 
                 Console.WriteLine("2 Show Tracks list ");
                 Console.WriteLine("4 Exit");

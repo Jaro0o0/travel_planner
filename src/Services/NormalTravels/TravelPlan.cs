@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using System.Net.Http;
-using using System.Threading.Tasks;
+using System.Net.Http.Json;
+using System.Threading.Tasks;
 using System.Text;
 using System.Text.Json;
 
@@ -8,8 +10,8 @@ namespace Services
 
     public class Clothes {
         public bool Hoodie {get; set;}
-        public string Boots {get; set;}
-        public string Tshirt {get; set;}
+        public string Boots {get; set;} = string.Empty;
+        public string Tshirt {get; set;} = string.Empty;
 
     }
 
@@ -20,30 +22,31 @@ namespace Services
 
     public class  TravelPlan
     {
-        public string  TravelLocation {get; set;}
-        public var Weather {get; set;}
-        public vat Backpack {get; set;}
+        public string TravelLocation {get; set;} = string.Empty;
+        public WeatherData? Weather {get; set;}
+        public IBackpack? Backpack {get; set;}
+        private readonly Clothes clothes = new Clothes();
         
 
-        public TravelPlan( string travelLocation, var Weather, var backPack){
+        public TravelPlan(string? travelLocation, WeatherData? weather, IBackpack? backPack = null)
+        {
 
-            TravelLocatio = TravelLocatio;
-            Weather = Weather;
+            TravelLocation = travelLocation ?? string.Empty;
+            Weather = weather;
             Backpack = backPack;
 
 
             // Clothes Object
-            Clothes clothes = new Clothes();
-
             List<Clothes> ClothingList = new List<Clothes>();    
 
         }
 
         public void GeneratePlan(){
 
-            if(Weather.Temperature <= 15 ){
+            if (Weather?.Temperature is <= 15)
+            {
                 clothes.Hoodie = true;
-                clothes.Boots = "Recomend higher boots"
+                clothes.Boots = "Recomend higher boots";
 
 
 
@@ -55,23 +58,33 @@ namespace Services
 
 
     
-    }
+        }
 
     public async  Task GetAtractions(){
         Attractions attractions = new Attractions();
-        string url = $"https://places.googleapis.com/v1/places/{PLACE_ID}"
+        ShareTravelPalace.Place? place = await ShareTravelPalace.PlacesService.PlacesInfo(TravelLocation);
 
-        using HttpClient client  = new HttpClinet();
+        if (string.IsNullOrWhiteSpace(place?.Id))
+        {
+            return;
+        }
+
+        string url = $"https://places.googleapis.com/v1/places/{place.Id}";
+
+        using HttpClient client  = new HttpClient();
 
         try
         {
             var response  =  await client.GetAsync(url);
-            var data  = await response.Content.ReadFromJsonAsync();
+            var data  = await response.Content.ReadFromJsonAsync<Attractions>();
+            Console.WriteLine(data);
+
+
         }
-        catch (System.Exception)
+        catch (Exception e)
         {
             
-            throw;
+            
         }
 
         
@@ -79,4 +92,4 @@ namespace Services
 
     }
 }
-
+}
