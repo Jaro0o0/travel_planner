@@ -61,6 +61,9 @@ public class AddNewTravel
 
                                         command.ExecuteNonQuery();
 
+                                        //TravelPlan
+                                        var travelPlan = new TravelPlan(PlacesData?.DisplayName?.Text, WeatherData );
+
                                       
                                     }
                                    else
