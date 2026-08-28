@@ -3,11 +3,6 @@ using Microsoft.Data.Sqlite;
 using Spectre.Console;
 
 
-
-// using CreateBackpack;
-
-namespace TravelPlanner
-{
     class Program
     {
         
@@ -17,87 +12,43 @@ namespace TravelPlanner
         // diaspley equipment
         static async Task Main()
         {
+            new DataBase().CreateDatabase();
+
             Console.WriteLine("To better experince you can add your interests do you wanto do that (y/n)");
             string UserChoose = Console.ReadLine().Trim().ToLower() ?? "";
 
-            if(UserChoose == "y")
-            {
+            if(UserChoose == "y"){
+                await UserInterests.SelectUserInterests();
 
-               
-
-                Console.WriteLine("Choose interest");
-                //choose intwrrests
-                var choices = AnsiConsole.Prompt(
-                    new MultiSelectionPrompt<InterestToChoose>()
-                    .Title("Select an [green]environment[/]:")
-                    .AddChoices(Enum.GetValues<InterestToChoose>()));
-
-                     var googleTypes = choices.SelectMany(InterestMapper.ToGoogleTypes).ToArray();
-
-                    
-
-                     
-                AnsiConsole.MarkupLine($"Deploying to [blue]{choices}[/]");
-                
-                //Add interst to list            
-                List<string> UserInterests = new List<string>();
-
-                //ADD_ITEM
-                UserInterests.Add(Console.ReadLine() ?? "");
-                
-
-                using SqliteConnection connection = new SqliteConnection("Data Source=src/Models/interests.db");
-                connection.Open();
-
-                using SqliteCommand command = connection.CreateCommand();
-                
-
-                //Add to database
-                foreach(var interest in UserInterests )
-                {
-                    
-                   
-                    command.CommandText = "INSERT INTO userInterests (Interests) VALUES (@interests)";
-                    command.Parameters.AddWithValue("@interests", interest );
-
-                }
-
-
-
-
-
-
-
-            }
+            }            
             else
             {
+                //Home Menu 
                 while (true)
                 {
                     var userChoice = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
-                    .Title("Select Option [green]environment[/]:")
-                    .AddChoices("1: Add new trip", "2 Show Tracks list", "4 Exit", "plan your equipment"));
-
-
-                    Console.WriteLine("###Trials_planner###");
-                  
+                    .Title("Select Option [green]Trials_planner[/]:")
+                    .AddChoices("1: Add new trip", "2: Show Travel list", "3: Exit" ));
 
 
                     switch (userChoice)
                     {
                         case "1: Add new trip":
-                            Console.WriteLine("CASE: 1");
+                          
                             await AddNewTravel.AddNewTrip();
                         
                             break;
-
-                     
-                        
-                    
-                        
-                        case "3":
-                            Console.WriteLine("Plan your equipment");
+                                            
+                        case "2: Show Travel list":
+                            
+                            Travels.ShowTravels();
                             break;
+                        
+                        case "3: Exit":
+                            Console.WriteLine("Plan your equipment");
+                            return;
+                            
 
                         default:
                             Console.WriteLine("Erro");
@@ -111,4 +62,3 @@ namespace TravelPlanner
         }
 
     }
-}

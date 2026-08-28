@@ -4,7 +4,7 @@ using Microsoft.Data.Sqlite;
 
 public class UsersInterestsDataBase
 {
-    private readonly string ConectString = "Data Source=src/Models/travel.db";
+    private readonly string ConectString = "Data Source=Models/travel.db";
 
     public void CreateDatabase()
     {
@@ -18,9 +18,7 @@ public class UsersInterestsDataBase
         command.CommandText = """
             CREATE TABLE IF NOT EXISTS userInterests (
                 Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                Interest TEXT NOT NULL,
-                StartDate TEXT NOT NULL,
-                EndDate TEXT NOT NULL
+                Interests TEXT NOT NULL
             );
             """;
         command.ExecuteNonQuery();

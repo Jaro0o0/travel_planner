@@ -1,10 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
 using System.Net.Http.Json;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.Json;
 using DotNetEnv;
@@ -47,6 +41,18 @@ public class PlacesService
 
         string? apiKey =
             Environment.GetEnvironmentVariable("GOOGLE_PLACES_API_KEY");
+
+        if (string.IsNullOrWhiteSpace(apiKey))
+        {
+            Env.Load("../.env");
+            apiKey = Environment.GetEnvironmentVariable("GOOGLE_PLACES_API_KEY");
+        }
+
+        if (string.IsNullOrWhiteSpace(apiKey))
+        {
+            Console.WriteLine("Missing GOOGLE_PLACES_API_KEY.");
+            return null;
+        }
 
 
         using HttpClient client = new HttpClient();
@@ -124,6 +130,12 @@ public class PlacesService
 
         Env.Load();
         string? apiKey = Environment.GetEnvironmentVariable("GOOGLE_PLACES_API_KEY");
+
+        if (string.IsNullOrWhiteSpace(apiKey))
+        {
+            Env.Load("../.env");
+            apiKey = Environment.GetEnvironmentVariable("GOOGLE_PLACES_API_KEY");
+        }
 
         if (string.IsNullOrWhiteSpace(apiKey))
         {

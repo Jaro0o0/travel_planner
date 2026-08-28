@@ -4,6 +4,7 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using System.Text;
 using System.Text.Json;
+using Spectre.Console;
 
 namespace Services
 {
@@ -47,39 +48,6 @@ namespace Services
             IBackpack backpack = BackPackFactory.Create("normal");
 
 
-            // if (Weather?.Temperature <= 15)
-            // {
-            //     clothes.Hoodie = "you should get hoodie";
-            //     clothes.Boots = "Recomend higher boots";
-            //     Console.WriteLine("Do yo want to add hoodie to your backpack (y/n)");
-            //     string UserChosoe = Console.ReadLine().Trim().ToLower() ?? "";
-
-            //     if(UserChosoe == "y")
-            //     {
-            //         backpack.AddItem();
-
-            //     }
-                
-
-
-            // }
-            // else
-            // {
-            //     clothes.Hoodie = "hoodie is not nesescary";
-
-
-            // }
-
-            // if (Weather?.Wind >= 10)
-            // {
-            //  Console.WriteLine("Warrning Very Strong wind");
-            //  Console.WriteLine("Make sure you are ready");    
-
-            // }  
-
-
-            // Attractions attractions = new Attractions();
-
            
            var context = new TripContext();
 
@@ -117,7 +85,49 @@ namespace Services
 
     public void GenerateBackpack()
     {
+        var backpackContext = new BackPackContext
+        {
+            WeatherCondition = Weather?.Description ?? string.Empty,
+            Temperature = Weather?.Temperature ?? 0
+        };
+
+        var recommendedItems = new BackpackContextEngine()
+            .GetRecommendedItems(backpackContext);
+
+        if (recommendedItems.Count == 0)
+        {
+            Console.WriteLine("Brak dodatkowych rekomendacji do plecaka.");
+            return;
+        }
+
+        Console.WriteLine("Polecane rzeczy do plecaka:");
+        foreach (string item in recommendedItems)
+        {
+            Console.WriteLine($"- {item}");
+        }
+
+        //Chosee recomended items to save
+        var choices = AnsiConsole.Prompt(
+                    new MultiSelectionPrompt<InterestToChoose>()
+                    .Title("Select an [green]environment[/]:")
+                    .AddChoices(recommendedItems));
+            BackPackFactory.Create("normal");
             
+
+        //Choose oprion savae
+        var userChoice = AnsiConsole.Prompt(
+                    new SelectionPrompt<string>()
+                    .Title("Do you want to save this backapck list [green]Trials_planner[/]:")
+                    .AddChoices("1: Yes", "2: No"));
+
+            switch (userChoice)
+            {
+                case "1: Yes":
+
+
+                    
+            }
+
     }
   
 }

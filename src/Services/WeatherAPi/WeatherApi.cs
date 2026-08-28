@@ -52,6 +52,19 @@ namespace Services
             Env.Load();
           
             string apiKey = Environment.GetEnvironmentVariable("WEATHER_API_KEY") ?? "";
+
+            if (string.IsNullOrWhiteSpace(apiKey))
+            {
+                Env.Load("../.env");
+                apiKey = Environment.GetEnvironmentVariable("WEATHER_API_KEY") ?? "";
+            }
+
+            if (string.IsNullOrWhiteSpace(apiKey))
+            {
+                Console.WriteLine("Missing WEATHER_API_KEY.");
+                return null;
+            }
+
             string url = $"http://api.openweathermap.org/geo/1.0/direct?q={city}&limit=1&appid={apiKey}";
             
 
@@ -61,6 +74,13 @@ namespace Services
             {
                 var response = await clinet.GetAsync(url);
                 var content = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine($"Weather API returned {(int)response.StatusCode}: {content}");
+                    return null;
+                }
+
                 var locations = JsonSerializer.Deserialize<List<Lart>>(content);
 
                 if (locations != null && locations.Count > 0)
@@ -70,7 +90,14 @@ namespace Services
 
                     string weatherUrl = $"https://api.openweathermap.org/data/2.5/weather?lat={location.lat}&lon={location.lon}&appid={apiKey}";
                     var weatherResponse = await clinet.GetAsync(weatherUrl);
-                    // var weatherContent = await weatherResponse.Content.ReadAsStringAsync();
+
+                    if (!weatherResponse.IsSuccessStatusCode)
+                    {
+                        string weatherContent = await weatherResponse.Content.ReadAsStringAsync();
+                        Console.WriteLine($"Weather API returned {(int)weatherResponse.StatusCode}: {weatherContent}");
+                        return null;
+                    }
+
                     var weather = await weatherResponse.Content.ReadFromJsonAsync<WeatherResponse>();
 
                     return new WeatherData
@@ -84,6 +111,10 @@ namespace Services
             catch (HttpRequestException e)
             {
                 Console.WriteLine($"Weather API error {e}");
+            }
+            catch (JsonException e)
+            {
+                Console.WriteLine($"Weather API JSON error {e.Message}");
             }
 
             return null;

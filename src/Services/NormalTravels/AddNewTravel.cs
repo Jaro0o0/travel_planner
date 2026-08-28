@@ -1,8 +1,7 @@
-using System;
-using System.Net.Http;
 using Microsoft.Data.Sqlite;
-using System.Threading.Tasks;
 using ShareTravelPalace;
+using Spectre.Console;
+
 
 
 namespace  Services
@@ -13,21 +12,30 @@ public class AddNewTravel
 {
     public async static Task AddNewTrip()
         {
-             Console.WriteLine("choose your kind of travel");
-                        Console.WriteLine("1: Standard travel");
-                        Console.WriteLine("2: Moluntain Teavel");
+             
+                        var travelKind = AnsiConsole.Prompt(
+                        new SelectionPrompt<string>()
+                                .Title("Select Option [green]Trials_planner[/]:")
+                                .AddChoices("1: Standard travel", "2: Mountain Teavel"));
 
-                        string travelKind = Console.ReadLine()?.Trim() ?? "";
+                      
 
                         switch (travelKind)
                         {
-                            case "1":
+                            case "1: Standard travel":
                                 Console.WriteLine("Where you wanto to travel");
                                 string travelPlace = Console.ReadLine()?.Trim() ?? "";
                                 //Travel place info
                                 if (!string.IsNullOrWhiteSpace(travelPlace))
                                 {
                                    Place? PlacesData = await PlacesService.PlacesInfo(travelPlace);
+
+                                   if (PlacesData is null)
+                                   {
+                                       Console.WriteLine("Nie udało się znaleźć wybranego miejsca.");
+                                       return;
+                                   }
+
                                    Console.WriteLine($"Place: {PlacesData?.DisplayName?.Text}");
                                 
                                    Console.WriteLine($"Address: {PlacesData?.FormattedAddress}"); 
@@ -44,6 +52,16 @@ public class AddNewTravel
                                     Console.WriteLine("Make baackpack");
                                     string UserBackpackChoose = Console.ReadLine();
                                     var travelPlan = new TravelPlan(PlacesData?.DisplayName?.Text, WeatherData );
+                                    Console.WriteLine("Recomended Atractions");
+                                    var tripContext = new TripContext
+                                    {
+                                        WeatherCondition = WeatherData?.Description ?? string.Empty,
+                                        Temperature = WeatherData?.Temperature ?? 0
+                                    };
+                                    await travelPlan.GetAtractions(tripContext, Array.Empty<string>());
+                                    Console.WriteLine("Rocomende items for backpack");
+                                    travelPlan.GenerateBackpack();
+
 
                                    //SavePlae
                                    Console.WriteLine("Do you want to save this place? (y/n)");
@@ -56,7 +74,7 @@ public class AddNewTravel
                                         //Equipment 
                                         BackPackFactory.Create("normal");
                                         
-                                        using SqliteConnection connection = new SqliteConnection("Data Source=src/Models/travel.db");
+                                        using SqliteConnection connection = new SqliteConnection("Data Source=Models/travel.db");
                                         connection.Open();
 
 
@@ -80,10 +98,32 @@ public class AddNewTravel
                                 }
                                 break;
 
+                            case  "2: Mountain Teavel":
+
+                               var UserChoose = AnsiConsole.Prompt(
+                               new SelectionPrompt<string>()
+                                    .Title("This function is not available yet")
+                                    .AddChoices("1: Choose another option", "2: Back to home")
+                                 );
+
+                                if (UserChoose.Trim().ToLower() == "1: Choose another option")
+                                {
+
+                                }
+                                else
+                                {
+                                    return;
+                                }
+                                break;
+                                
+                                
+
+
                             default:
                                 Console.WriteLine("Invalid choice.");
                                 break;
 
+                     
                             
                                 
 

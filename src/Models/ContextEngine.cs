@@ -47,16 +47,4 @@ public class ContextEngine
         
     }
 
-    public void ScoreBackpack(Place place, TripContext context)
-    {
-        List<string> types = place.Types ?? new List<string>();
-
-        int score = 0;
-        
-        if(context.WeatherCondition == " moderate rain")
-        {
-            score += 15;
-        }
-
-    }
 }
