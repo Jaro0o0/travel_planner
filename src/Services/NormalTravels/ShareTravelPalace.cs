@@ -16,6 +16,7 @@ public class Place
     public string? Id { get; set; }
     public DisplayName? DisplayName { get; set; }
     public string? FormattedAddress { get; set; }
+    public Location? Location { get; set; }
 }
 
 public class DisplayName
@@ -23,12 +24,18 @@ public class DisplayName
     public string? Text { get; set; }
 }
 
+public class Location
+{
+    public double Latitude { get; set; }
+    public double Longitude { get; set; }
+}
+
 public class PlacesResponse
 {
     public List<Place>? Places { get; set; }
 }
 
-class PlacesService
+public class PlacesService
 {
    
 
@@ -46,7 +53,7 @@ class PlacesService
 
         client.DefaultRequestHeaders.Add(
             "X-Goog-FieldMask",
-            "places.id,places.displayName,places.formattedAddress");
+            "places.id,places.displayName,places.formattedAddress,places.location");
 
         string requestBody = JsonSerializer.Serialize(new
         {
@@ -100,14 +107,83 @@ class PlacesService
             return null;
         }
 
-        public static async Task PlaceAttraactions()
+    }
+
+    public static async Task<List<Place>> PlaceAttraactions(
+        string placeName,
+        IEnumerable<string> googleTypes)
+    {
+        Place? selectedPlace = await PlacesInfo(placeName);
+
+        if (selectedPlace?.Location is null)
         {
-            using HttpClient client = new HttpClient();
+            return new List<Place>();
+        }
+
+        Env.Load();
+        string? apiKey = Environment.GetEnvironmentVariable("GOOGLE_PLACES_API_KEY");
+
+        if (string.IsNullOrWhiteSpace(apiKey))
+        {
+            Console.WriteLine("Missing GOOGLE_PLACES_API_KEY.");
+            return new List<Place>();
+        }
+
+        using HttpClient client = new HttpClient();
+        client.DefaultRequestHeaders.Add("X-Goog-Api-Key", apiKey);
+        client.DefaultRequestHeaders.Add(
+            "X-Goog-FieldMask",
+            "places.id,places.displayName,places.formattedAddress");
+
+        var request = new
+        {
+            includedTypes = googleTypes.Distinct().ToArray(),
+            maxResultCount = 20,
+            languageCode = "pl",
+            locationRestriction = new
+            {
+                circle = new
+                {
+                    center = new
+                    {
+                        latitude = selectedPlace.Location.Latitude,
+                        longitude = selectedPlace.Location.Longitude
+                    },
+                    radius = 5000.0
+                }
+            }
+        };
 
         try
         {
-            client.PostAsJsonAsync("https://places.googleapis.com/v1/places:searchNearby", );
+            using HttpResponseMessage response = await client.PostAsJsonAsync(
+                "https://places.googleapis.com/v1/places:searchNearby",
+                request);
+
+            string data = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                Console.WriteLine($"Error: API returned {(int)response.StatusCode}");
+                Console.WriteLine(data);
+                return new List<Place>();
+            }
+
+            PlacesResponse? result = JsonSerializer.Deserialize<PlacesResponse>(
+                data,
+                new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+            return result?.Places ?? new List<Place>();
         }
+        catch (HttpRequestException e)
+        {
+            Console.WriteLine($"HTTP Error: {e.Message}");
+            return new List<Place>();
+        }
+        catch (JsonException e)
+        {
+            Console.WriteLine($"JSON Error: {e.Message}");
+            return new List<Place>();
         }
     }
 }

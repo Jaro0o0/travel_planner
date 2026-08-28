@@ -1,6 +1,7 @@
 ﻿using Services;
 using Microsoft.Data.Sqlite;
 using Spectre.Console;
+using System.Security.Cryptography.X509Certificates;
 
 
 // using CreateBackpack;
@@ -31,9 +32,9 @@ namespace TravelPlanner
                     .Title("Select an [green]environment[/]:")
                     .AddChoices(Enum.GetValues<InterestToChoose>()));
 
-                    var googleTypes = choices.SelectMany(InterestMapper.ToGoogleTypes).ToArray();
+                     InterestToChoose googleTypes = choices.SelectMany(InterestMapper.ToGoogleTypes).ToArray();
 
-                    var response = ShareTravelPalace.Place
+                    
 
                      
                 AnsiConsole.MarkupLine($"Deploying to [blue]{choices}[/]");
@@ -45,16 +46,17 @@ namespace TravelPlanner
                 UserInterests.Add(Console.ReadLine() ?? "");
                 
 
+                using SqliteConnection connection = new SqliteConnection("Data Source=src/Models/interests.db");
+                connection.Open();
+
+                using SqliteCommand command = connection.CreateCommand();
                 
 
                 //Add to database
                 foreach(var interest in UserInterests )
                 {
                     
-                    using SqliteConnection connection = new SqliteConnection("Data Source=src/Models/interests.db");
-                    connection.Open();
-
-                    using SqliteCommand command = connection.CreateCommand();
+                   
                     command.CommandText = "INSERT INTO userInterests (Interests) VALUES (@interests)";
                     command.Parameters.AddWithValue("@interests", interest );
 
@@ -78,22 +80,7 @@ namespace TravelPlanner
 
 
                     Console.WriteLine("###Trials_planner###");
-                    // Console.WriteLine("choose option");
-                    // Console.WriteLine("1 Add new trip ");
-                    //   Console.WriteLine("1 Show planp ");
-                    //    Console.WriteLine("1 edit plan ");
-                    //    Console.WriteLine("1 remove ");
-                    //    budget
-                    //    caache
-                    //    sync
-                    //    suggest
-                    //    Polly
-                    // xuint
-                    // Time ENd and Start
-
-                    // Console.WriteLine("2 Show Tracks list ");
-                    // Console.WriteLine("4 Exit");
-                    // Console.WriteLine("5: plan your equipment");
+                  
 
 
                     switch (userChoice)
@@ -104,12 +91,7 @@ namespace TravelPlanner
                         
                             break;
 
-                        // case "2":
-                        // {
-                        //     TracksList.ShowTracksList();
-                        //     break;
-                        // }
-                        
+                     
                         
                     
                         
@@ -121,10 +103,7 @@ namespace TravelPlanner
                             Console.WriteLine("Erro");
                             break;
 
-                        // case "5":
-                        //     Backpack.SelectSize();
-                        //     Console.WriteLine("");
-                        //     break;
+                        
                     }
                 }
             }

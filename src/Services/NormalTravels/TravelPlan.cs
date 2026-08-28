@@ -46,40 +46,41 @@ namespace Services
             IBackpack backpack = BackPackFactory.Create("normal");
 
 
-            if (Weather?.Temperature <= 15)
-            {
-                clothes.Hoodie = "you should get hoodie";
-                clothes.Boots = "Recomend higher boots";
-                Console.WriteLine("Do yo want to add hoodie to your backpack (y/n)");
-                string UserChosoe = Console.ReadLine().Trim().ToLower() ?? "";
+            // if (Weather?.Temperature <= 15)
+            // {
+            //     clothes.Hoodie = "you should get hoodie";
+            //     clothes.Boots = "Recomend higher boots";
+            //     Console.WriteLine("Do yo want to add hoodie to your backpack (y/n)");
+            //     string UserChosoe = Console.ReadLine().Trim().ToLower() ?? "";
 
-                if(UserChosoe == "y")
-                {
-                    backpack.AddItem();
+            //     if(UserChosoe == "y")
+            //     {
+            //         backpack.AddItem();
 
-                }
+            //     }
                 
 
 
-            }
-            else
-            {
-                clothes.Hoodie = "hoodie is not nesescary";
+            // }
+            // else
+            // {
+            //     clothes.Hoodie = "hoodie is not nesescary";
 
 
-            }
+            // }
 
-            if (Weather?.Wind >= 10)
-            {
-             Console.WriteLine("Warrning Very Strong wind");
-             Console.WriteLine("Make sure you are ready");    
+            // if (Weather?.Wind >= 10)
+            // {
+            //  Console.WriteLine("Warrning Very Strong wind");
+            //  Console.WriteLine("Make sure you are ready");    
 
-            }  
+            // }  
 
 
-            Attractions attractions = new Attractions();
+            // Attractions attractions = new Attractions();
 
            
+           var context new TripContext();
 
 
     
@@ -88,6 +89,8 @@ namespace Services
     public async  Task GetAtractions(){
         Attractions attractions = new Attractions();
         ShareTravelPalace.Place? place = await ShareTravelPalace.PlacesService.PlacesInfo(TravelLocation);
+        ShareTravelPalace.Place? place = await ShareTravelPalace.PlaceAttraactions(TravelLocation,);
+
 
         if (string.IsNullOrWhiteSpace(place?.Id))
         {
@@ -116,5 +119,7 @@ namespace Services
 
 
     }
+
+  
 }
 }
