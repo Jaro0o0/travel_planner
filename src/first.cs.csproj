@@ -12,6 +12,7 @@
     <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.10" />
     <PackageReference Include="Pastel" Version="8.0.0" />
     <PackageReference Include="Spectre.Console" Version="0.57.2" />
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.13" />
   </ItemGroup>
 
 </Project>

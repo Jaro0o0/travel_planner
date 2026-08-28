@@ -1,4 +1,5 @@
 
+
 namespace Services
 {
     public interface IBackpack
@@ -12,7 +13,7 @@ namespace Services
         {
             if (type == "normal")
             {
-                 return new Backpack();
+                //  return new Backpack();
             }
 
             if (type == "mountain")

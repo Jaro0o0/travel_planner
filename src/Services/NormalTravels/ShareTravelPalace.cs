@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Json;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.Json;
 using DotNetEnv;
@@ -28,36 +30,15 @@ public class PlacesResponse
 
 class PlacesService
 {
-    private static void LoadEnvFile()
-    {
-        DirectoryInfo? dir = new DirectoryInfo(Directory.GetCurrentDirectory());
-
-        while (dir != null)
-        {
-            string envPath = Path.Combine(dir.FullName, ".env");
-
-            if (File.Exists(envPath))
-            {
-                Env.Load(envPath);
-                return;
-            }
-
-            dir = dir.Parent;
-        }
-    }
+   
 
     public static async Task<Place?> PlacesInfo(string placeName)
     {
-        LoadEnvFile();
+        Env.Load();
 
         string? apiKey =
             Environment.GetEnvironmentVariable("GOOGLE_PLACES_API_KEY");
 
-        if (string.IsNullOrWhiteSpace(apiKey))
-        {
-            Console.WriteLine("Error: GOOGLE_PLACES_API_KEY is not set.");
-            return null;
-        }
 
         using HttpClient client = new HttpClient();
 
@@ -117,6 +98,16 @@ class PlacesService
         {
             Console.WriteLine($"JSON Error: {e.Message}");
             return null;
+        }
+
+        public static async Task PlaceAttraactions()
+        {
+            using HttpClient client = new HttpClient();
+
+        try
+        {
+            client.PostAsJsonAsync("https://places.googleapis.com/v1/places:searchNearby", );
+        }
         }
     }
 }

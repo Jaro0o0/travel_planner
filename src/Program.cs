@@ -1,8 +1,7 @@
-﻿using System.Drawing;
-using Pastel;
-using Services;
+﻿using Services;
 using Microsoft.Data.Sqlite;
 using Spectre.Console;
+
 
 // using CreateBackpack;
 
@@ -10,6 +9,9 @@ namespace TravelPlanner
 {
     class Program
     {
+        
+
+        
 
         // diaspley equipment
         static async Task Main()
@@ -20,15 +22,21 @@ namespace TravelPlanner
             if(UserChoose == "y")
             {
 
+               
+
                 Console.WriteLine("Choose interest");
                 //choose intwrrests
-                var choice = AnsiConsole.Prompt(
-                    new SelectionPrompt<string>()
+                var choices = AnsiConsole.Prompt(
+                    new MultiSelectionPrompt<InterestToChoose>()
                     .Title("Select an [green]environment[/]:")
-                    .AddChoices("Development", "Staging", "Production"));
+                    .AddChoices(Enum.GetValues<InterestToChoose>()));
+
+                    var googleTypes = choices.SelectMany(InterestMapper.ToGoogleTypes).ToArray();
+
+                    var response = ShareTravelPalace.Place
 
                      
-                AnsiConsole.MarkupLine($"Deploying to [blue]{choice}[/]");
+                AnsiConsole.MarkupLine($"Deploying to [blue]{choices}[/]");
                 
                 //Add interst to list            
                 List<string> UserInterests = new List<string>();
@@ -59,59 +67,68 @@ namespace TravelPlanner
 
 
             }
-            while (true)
+            else
             {
-                Console.WriteLine("###Trials_planner###");
-                Console.WriteLine("choose option");
-                Console.WriteLine("1 Add new trip ");
-                //   Console.WriteLine("1 Show planp ");
-                //    Console.WriteLine("1 edit plan ");
-                //    Console.WriteLine("1 remove ");
-                //    budget
-                //    caache
-                //    sync
-                //    suggest
-                //    Polly
-                // xuint
-                // Time ENd and Start
-
-                Console.WriteLine("2 Show Tracks list ");
-                Console.WriteLine("4 Exit");
-                Console.WriteLine("5: plan your equipment");
-
-                string choose = Console.ReadLine() ?? "";
-
-                switch (choose)
+                while (true)
                 {
-                    case "1":
-                        Console.WriteLine("CASE: 1");
-                        await AddNewTravel.AddNewTrip();
-                       
-                        break;
+                    var userChoice = AnsiConsole.Prompt(
+                    new SelectionPrompt<string>()
+                    .Title("Select an [green]environment[/]:")
+                    .AddChoices("Add new trip", "2 Show Tracks list", "4 Exit", "plan your equipment"));
 
-                     case "2":
+
+                    Console.WriteLine("###Trials_planner###");
+                    // Console.WriteLine("choose option");
+                    // Console.WriteLine("1 Add new trip ");
+                    //   Console.WriteLine("1 Show planp ");
+                    //    Console.WriteLine("1 edit plan ");
+                    //    Console.WriteLine("1 remove ");
+                    //    budget
+                    //    caache
+                    //    sync
+                    //    suggest
+                    //    Polly
+                    // xuint
+                    // Time ENd and Start
+
+                    // Console.WriteLine("2 Show Tracks list ");
+                    // Console.WriteLine("4 Exit");
+                    // Console.WriteLine("5: plan your equipment");
+
+
+                    switch (userChoice)
                     {
-                        TracksList.ShowTracksList();
-                        break;
+                        case "1":
+                            Console.WriteLine("CASE: 1");
+                            await AddNewTravel.AddNewTrip();
+                        
+                            break;
+
+                        // case "2":
+                        // {
+                        //     TracksList.ShowTracksList();
+                        //     break;
+                        // }
+                        
+                        
+                    
+                        
+                        case "3":
+                            Console.WriteLine("Plan your equipment");
+                            break;
+
+                        default:
+                            Console.WriteLine("Erro");
+                            break;
+
+                        // case "5":
+                        //     Backpack.SelectSize();
+                        //     Console.WriteLine("");
+                        //     break;
                     }
-                      
-                    
-                
-                    
-                    case "3":
-                        Console.WriteLine("Plan your equipment");
-                        break;
-
-                    default:
-                        Console.WriteLine("Erro");
-                        break;
-
-                    // case "5":
-                    //     Backpack.SelectSize();
-                    //     Console.WriteLine("");
-                    //     break;
                 }
             }
+           
         }
 
     }
