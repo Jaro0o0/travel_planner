@@ -3,18 +3,19 @@ using ShareTravelPalace;
 
 public class ContextEngine
 {
-    public ScorePlace(InterestToChoose googleTypes , context)
+    public int ScorePlace(Place place, TripContext context)
     {
-
-       
         int score = 0;
+        List<string> types = place.Types ?? new List<string>();
+
          //Weather
 
         //Regex z deszczem
-        if (context.Weather == "moderate rain")
+        if (context.WeatherCondition == "moderate rain")
         {
             //In rain
-            if(googleTypes.Contains("museum","art_gallery","cafe", "coffee_shop"))
+            if (types.Contains("museum") || types.Contains("art_gallery") ||
+                types.Contains("cafe") || types.Contains("coffee_shop"))
             {
                 score += 20;
             }
@@ -24,24 +25,38 @@ public class ContextEngine
             }
         }
         // WeatherAPi and Temp
-        if (context.Weather == "sunnt" && context.Temperature > 25)
+        if (context.WeatherCondition == "sunny" && context.Temperature > 25)
         {
-            if (place.Types.Contains("park") || place.Types.Contains("beach") || place.Types.Contains("ice_cream_shop"))
+            if (types.Contains("park") || types.Contains("beach") || types.Contains("ice_cream_shop"))
                 score += 15;
         }
 
         //Time of the day
-        if(context.CurrentDataTime.Hour < 11) //morning
+        if (context.CurrentDateTime.Hour < 11) //morning
         {
-             if (place.Types.Contains("cafe") || place.Types.Contains("bakery"))
+             if (types.Contains("cafe") || types.Contains("bakery"))
                 score += 15;
         } 
 
         //User preferences 
-         if (context.Preferences.Interests.Contains(place.MainCategory))
+         if (!string.IsNullOrWhiteSpace(place.PrimaryType) &&
+             context.Interests.Contains(place.PrimaryType))
             score += 30;
         
         return score;
         
+    }
+
+    public void ScoreBackpack(Place place, TripContext context)
+    {
+        List<string> types = place.Types ?? new List<string>();
+
+        int score = 0;
+        
+        if(context.WeatherCondition == " moderate rain")
+        {
+            score += 15;
+        }
+
     }
 }

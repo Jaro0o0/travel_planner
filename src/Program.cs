@@ -1,7 +1,7 @@
 ﻿using Services;
 using Microsoft.Data.Sqlite;
 using Spectre.Console;
-using System.Security.Cryptography.X509Certificates;
+
 
 
 // using CreateBackpack;
@@ -32,7 +32,7 @@ namespace TravelPlanner
                     .Title("Select an [green]environment[/]:")
                     .AddChoices(Enum.GetValues<InterestToChoose>()));
 
-                     InterestToChoose googleTypes = choices.SelectMany(InterestMapper.ToGoogleTypes).ToArray();
+                     var googleTypes = choices.SelectMany(InterestMapper.ToGoogleTypes).ToArray();
 
                     
 
@@ -75,8 +75,8 @@ namespace TravelPlanner
                 {
                     var userChoice = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
-                    .Title("Select an [green]environment[/]:")
-                    .AddChoices("Add new trip", "2 Show Tracks list", "4 Exit", "plan your equipment"));
+                    .Title("Select Option [green]environment[/]:")
+                    .AddChoices("1: Add new trip", "2 Show Tracks list", "4 Exit", "plan your equipment"));
 
 
                     Console.WriteLine("###Trials_planner###");
@@ -85,7 +85,7 @@ namespace TravelPlanner
 
                     switch (userChoice)
                     {
-                        case "1":
+                        case "1: Add new trip":
                             Console.WriteLine("CASE: 1");
                             await AddNewTravel.AddNewTrip();
                         

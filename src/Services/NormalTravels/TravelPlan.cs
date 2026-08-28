@@ -26,6 +26,7 @@ namespace Services
         public WeatherData? Weather {get; set;}
         public IBackpack? Backpack {get; set;}
         private readonly Clothes clothes = new Clothes();
+        private readonly ContextEngine _scoringService = new ContextEngine();
         
 
         public TravelPlan(string? travelLocation, WeatherData? weather, IBackpack? backPack = null)
@@ -80,46 +81,44 @@ namespace Services
             // Attractions attractions = new Attractions();
 
            
-           var context new TripContext();
+           var context = new TripContext();
 
 
     
         }
 
-    public async  Task GetAtractions(){
-        Attractions attractions = new Attractions();
-        ShareTravelPalace.Place? place = await ShareTravelPalace.PlacesService.PlacesInfo(TravelLocation);
-        ShareTravelPalace.Place? place = await ShareTravelPalace.PlaceAttraactions(TravelLocation,);
+    public async Task GetAtractions(TripContext context, IEnumerable<string> googleTypes)
+    {
+        var places = await ShareTravelPalace.PlacesService.PlaceAttraactions(
+            TravelLocation,
+            googleTypes);
 
+        var rankedPlaces = places
+            .Select(p => new { Place = p, Score = _scoringService.ScorePlace(p, context) })
+            .Where(x => x.Score > 0)
+            .OrderByDescending(x => x.Score)
+            .Take(5)
+            .ToList();
 
-        if (string.IsNullOrWhiteSpace(place?.Id))
+        if (rankedPlaces.Count == 0)
         {
+            Console.WriteLine("Nie znaleziono atrakcji pasujących do Twoich preferencji.");
             return;
         }
 
-        string url = $"https://places.googleapis.com/v1/places/{place.Id}";
-
-        using HttpClient client  = new HttpClient();
-
-        try
+        Console.WriteLine("Polecane atrakcje:");
+        foreach (var item in rankedPlaces)
         {
-            var response  =  await client.GetAsync(url);
-            var data  = await response.Content.ReadFromJsonAsync<Attractions>();
-            Console.WriteLine(data);
-
-
+            Console.WriteLine($"- {item.Place.DisplayName?.Text}");
+            Console.WriteLine($"  Adres: {item.Place.FormattedAddress}");
+            Console.WriteLine($"  Wynik: {item.Score}");
         }
-        catch (Exception e)
-        {
-            
-            
-        }
-
-        
-
-
     }
 
+    public void GenerateBackpack()
+    {
+            
+    }
   
 }
 }

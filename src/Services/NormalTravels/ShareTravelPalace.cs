@@ -17,6 +17,8 @@ public class Place
     public DisplayName? DisplayName { get; set; }
     public string? FormattedAddress { get; set; }
     public Location? Location { get; set; }
+    public List<string>? Types { get; set; }
+    public string? PrimaryType { get; set; }
 }
 
 public class DisplayName
@@ -133,7 +135,7 @@ public class PlacesService
         client.DefaultRequestHeaders.Add("X-Goog-Api-Key", apiKey);
         client.DefaultRequestHeaders.Add(
             "X-Goog-FieldMask",
-            "places.id,places.displayName,places.formattedAddress");
+            "places.id,places.displayName,places.formattedAddress,places.types,places.primaryType");
 
         var request = new
         {

@@ -9,7 +9,7 @@ public class UsersDb
         connection.Open();
 
          using SqliteCommand commadn = connection.CreateCommand();
-         commadn.CommandText = "CREATE TABLE If NOT EXIST USERS  ID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT NOT NULL Interests"
+         commadn.CommandText = "CREATE TABLE If NOT EXIST USERS  ID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT NOT NULL Interests";
 
     }
   
