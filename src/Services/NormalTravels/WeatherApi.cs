@@ -20,7 +20,7 @@ namespace Services
 
     public class WeatherInfo
     {
-        public string description { get; set; }
+        public string description { get; set; } = string.Empty;
     }
 
     public class WindInfo
@@ -30,9 +30,9 @@ namespace Services
 
     public class WeatherResponse
     {
-        public WeatherMain main { get; set; }
-        public List<WeatherInfo> weather { get; set; }
-        public WindInfo wind { get; set; }
+        public WeatherMain? main { get; set; }
+        public List<WeatherInfo>? weather { get; set; }
+        public WindInfo? wind { get; set; }
     }
 
     public class WeatherData
@@ -102,7 +102,7 @@ namespace Services
 
                     return new WeatherData
                     {
-                        Description = weather?.weather[0]?.description,
+                        Description = weather?.weather?[0]?.description,
                         Temperature = weather?.main?.temp,
                         Wind = weather?.wind?.speed
                     };

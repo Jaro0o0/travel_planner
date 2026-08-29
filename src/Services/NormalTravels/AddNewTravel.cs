@@ -23,16 +23,30 @@ public class AddNewTravel
                         switch (travelKind)
                         {
                             case "1: Standard travel":
-                                Console.WriteLine("Start Date (yyyy-mm-dd)");
-                                string startDate = Console.ReadLine()?.Trim() ?? "";
-                                
-                                if (string.IsNullOrWhiteSpace(startDate)){
-                                    startDate = DateTime.Now.ToString("yyyy-MM-dd");
-                                }
+                            while (true)
+                                {
+                                   
+                                    try{
+                                        //Start
+                                        Console.WriteLine("Start Date (yyyy-mm-dd)");
+                                        string startDate = Console.ReadLine()?.Trim() ?? "";
+                                        
+                                        //End
+                                        Console.WriteLine("End Date (yyyy-mm-dd)");
+                                        string endDate = Console.ReadLine()?.Trim() ?? "";
+                                    }
+                                    catch(Exception e)
+                                    {
+                                        Console.WriteLine("Wrong format");
+                                        continue;
+                                    }
+                                };
+                            
 
-                                
-                                Console.WriteLine("End Date (yyyy-mm-dd)");
-                                string endDate = Console.ReadLine()?.Trim() ?? "";
+
+                                if (string.IsNullOrWhiteSpace(startDate)){
+                                        startDate = DateTime.Now.ToString("yyyy-MM-dd");
+                                }
 
                                 if(DateTime.Parse(startDate) > DateTime.Parse(endDate)){
                                     Console.WriteLine("Start date cannot be after end date.");
@@ -81,7 +95,7 @@ public class AddNewTravel
 
                                    //TravelPlan
                                     Console.WriteLine("Make baackpack");
-                                    string UserBackpackChoose = Console.ReadLine();
+                                    string UserBackpackChoose = Console.ReadLine() ?? "";
                                     var travelPlan = new TravelPlan(PlacesData?.DisplayName?.Text, WeatherData );
                                     Console.WriteLine("Recomended Atractions");
                                     var tripContext = new TripContext

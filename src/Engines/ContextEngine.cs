@@ -8,10 +8,10 @@ public class ContextEngine
         int score = 0;
         List<string> types = place.Types ?? new List<string>();
 
-         //Weather
 
-        //Regex z deszczem
-        if (context.WeatherCondition == "moderate rain")
+
+       //Rain
+        if (context.WeatherCondition == "rain")
         {
             //In rain
             if (types.Contains("museum") || types.Contains("art_gallery") ||

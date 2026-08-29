@@ -11,7 +11,7 @@ namespace Services
 {
 
     public class Clothes {
-        public string Hoodie {get; set;}
+        public string Hoodie {get; set;} = string.Empty;
         public string Boots {get; set;} = string.Empty;
         public string Tshirt {get; set;} = string.Empty;
 

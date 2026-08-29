@@ -1,5 +1,4 @@
 ﻿using Services;
-using Microsoft.Data.Sqlite;
 using Spectre.Console;
 
 
@@ -7,10 +6,7 @@ using Spectre.Console;
     {
         
 
-        
-
-        // diaspley equipment
-        static async Task Main()
+        static void Main()
         {
           
            
@@ -45,7 +41,7 @@ using Spectre.Console;
                     {
                         case "1: Add new trip":
                           
-                            await AddNewTravel.AddNewTrip();
+                            AddNewTravel.AddNewTrip().GetAwaiter().GetResult();
                         
                             break;
                                             
@@ -70,9 +66,5 @@ using Spectre.Console;
            
         }
 
-        public  async Task FirstUserChoice()
-        {
-        
-        }
-
+       
     }
