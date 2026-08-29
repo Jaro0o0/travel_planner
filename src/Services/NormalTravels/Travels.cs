@@ -68,9 +68,10 @@ namespace Services
 
                 using SqliteCommand command = connection.CreateCommand();
 
-            //Polly jesli nie ma nic w bazie
-            
+                //Polly jesli nie ma nic w bazie
                 command.CommandText = "SELECT Id, Destination, StartDate, EndDate FROM Trips";
+            
+               
             
           
                 
@@ -120,6 +121,7 @@ namespace Services
 
         }
 
+     
      
     }
 }

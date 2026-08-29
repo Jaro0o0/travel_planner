@@ -34,3 +34,6 @@ slect
 delete
 update 
 Polly
+
+
+//pokazywanie planu
