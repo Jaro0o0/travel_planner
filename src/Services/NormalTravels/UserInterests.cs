@@ -9,7 +9,7 @@ namespace Services
         public static async Task SelectUserInterests()
         {
             Console.WriteLine("To better experince you can add your interests do you wanto do that (y/n)");
-            string UserChoose = Console.ReadLine()?.Trim().ToLower();
+            string? UserChoose = Console.ReadLine()?.Trim().ToLower();
 
              Console.WriteLine("Choose interest");
                 //choose intwrrests

@@ -86,7 +86,6 @@ namespace Services
                 if (locations != null && locations.Count > 0)
                 {
                     var location = locations[0];
-                    Console.WriteLine($"Latitude: {location.lat}, Longitude: {location.lon}");
 
                     string weatherUrl = $"https://api.openweathermap.org/data/2.5/weather?lat={location.lat}&lon={location.lon}&appid={apiKey}";
                     var weatherResponse = await clinet.GetAsync(weatherUrl);

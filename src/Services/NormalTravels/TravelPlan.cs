@@ -71,11 +71,11 @@ namespace Services
 
         if (rankedPlaces.Count == 0)
         {
-            Console.WriteLine("Nie znaleziono atrakcji pasujących do Twoich preferencji.");
+            Console.WriteLine("No attractions found matching your preferences..");
             return;
         }
 
-        Console.WriteLine("Polecane atrakcje:");
+        Console.WriteLine("Recommended attractions:");
         foreach (var item in rankedPlaces)
         {
             Console.WriteLine($"- {item.Place.DisplayName?.Text}");
@@ -97,16 +97,9 @@ namespace Services
 
         if (recommendedItems.Count == 0)
         {
-            Console.WriteLine("Brak dodatkowych rekomendacji do plecaka.");
+            Console.WriteLine("No additional backpack recommendations.");
         }
-        else
-        {
-            Console.WriteLine("Polecane rzeczy do plecaka:");
-            foreach (string item in recommendedItems)
-            {
-                Console.WriteLine($"- {item}");
-            }
-        }
+      
 
         //Chosee recomended items to save
         List<string> choices = new List<string>();

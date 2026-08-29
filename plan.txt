@@ -36,4 +36,7 @@ update
 Polly
 
 
-//pokazywanie planu
+//pokazywanie planu //
+
+
+wyjatek do za duzwegko miesiacaa

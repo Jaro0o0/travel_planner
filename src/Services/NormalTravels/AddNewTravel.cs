@@ -1,3 +1,4 @@
+using System.Net;
 using Microsoft.Data.Sqlite;
 using ShareTravelPalace;
 using Spectre.Console;
@@ -39,7 +40,7 @@ public class AddNewTravel
                                         endDate = Console.ReadLine()?.Trim() ?? "";
                                         break;
                                     }
-                                    catch(Exception e)
+                                    catch(Exception)
                                     {
                                         Console.WriteLine("Wrong format");
                                         continue;
@@ -52,25 +53,41 @@ public class AddNewTravel
                                         startDate = DateTime.Now.ToString("yyyy-MM-dd");
                                 }
 
-                                if(DateTime.Parse(startDate) > DateTime.Parse(endDate)){
-                                    Console.WriteLine("Start date cannot be after end date.");
-                                    return;
-                                }
+                                while(true){
+                                    try
+                                    {
+                                        if(DateTime.Parse(startDate) > DateTime.Parse(endDate)){
+                                            Console.WriteLine("Start date cannot be after end date.");
+                                            return;
+                                        }
 
-                                if(startDate == endDate){
-                                    Console.WriteLine("Start date and end date cannot be the same.");
-                                    return;
-                                }
-                                
-                                if(DateTime.Parse(startDate) < DateTime.Now){
-                                    Console.WriteLine("Start date cannot be in the past.");
-                                    return;
-                                }
+                                        if(startDate == endDate){
+                                            Console.WriteLine("Start date and end date cannot be the same.");
+                                            return;
+                                        }
+                                        
+                                        if(DateTime.Parse(startDate) < DateTime.Now){
+                                            Console.WriteLine("Start date cannot be in the past.");
+                                            return;
+                                        }
 
-                                if(DateTime.Parse(endDate) < DateTime.Now){
-                                    Console.WriteLine("End date cannot be in the past.");
-                                    return;
-                                }
+                                        if(DateTime.Parse(endDate) < DateTime.Now){
+                                            Console.WriteLine("End date cannot be in the past.");
+                                            return;
+                                        }
+
+                                        if((DateTime.Parse(endDate) - DateTime.Parse(startDate)).TotalDays > 12){
+                                            Console.WriteLine("Please enter a correct date.");
+                                            return;
+                                    }
+                                    }
+                                    catch (FormatException)
+                                    {
+                                        Console.WriteLine("Please enter a correct date.");
+                                        
+                                    }
+                                };
+
                                 //Travel place
                                 Console.WriteLine("Where you wanto to travel");
                                 string travelPlace = Console.ReadLine()?.Trim() ?? "";
@@ -92,18 +109,10 @@ public class AddNewTravel
                                    var WeatherData = await WeatherAPi.GetWeather(PlacesData?.FormattedAddress);
 
                                    Console.WriteLine($"Description: {WeatherData?.Description}");
-                                   Console.WriteLine($"Temperature: °C { Convert.ToDecimal(Math.Round(WeatherData?.Temperature - 273.15), 2) }");
-                                   Console.WriteLine($": {WeatherData?.Wind}");
+                                   Console.WriteLine($"Temperature: { Convert.ToDecimal(Math.Round((WeatherData?.Temperature ?? 0) - 273.15, 2)) } °C ");
+                                   Console.WriteLine($": {WeatherData?.Wind} m/s");
 
-                                   Console.WriteLine("Weather");
-                                    var WeatherChart = new BarChart()
-                                        .Label("[bold underline]Fruit Sales[/]")
-                                        .AddItem("Temperature:", WeatherData?.Temperature ?? 0, Color.Orange1)
-                                        .AddItem("Wind", WeatherData?.Wind ?? 0, Color.Blue);
-                                    
-                                    AnsiConsole.Write(WeatherChart);
-                                    Console.WriteLine($"{WeatherData?.Description}");
-
+                               
 
 
                                    //TravelPlan
