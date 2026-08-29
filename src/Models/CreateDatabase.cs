@@ -33,6 +33,13 @@ public class DataBase
                 Id INTEGER PRIMARY KEY AUTOINCREMENT,
                 Interests TEXT NOT NULL
             );
+
+            CREATE TABLE IF NOT EXISTS BackpackItems (
+                Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                Destination TEXT NOT NULL,
+                Item TEXT NOT NULL,
+                CreatedAt TEXT NOT NULL
+            );
             """;
         command.ExecuteNonQuery();
     }

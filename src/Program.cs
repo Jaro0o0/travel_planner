@@ -42,6 +42,8 @@ using Spectre.Console;
                                             
                         case "2: Show Travel list":
                             
+                            Console.WriteLine("Travels");
+                            
                             Travels.ShowTravels();
                             break;
                         

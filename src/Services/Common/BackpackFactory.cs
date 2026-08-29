@@ -25,4 +25,15 @@ namespace Services
         }
         
     }
+
+    public class Backpack : IBackpack
+    {
+        public void AddItem()
+        {
+        }
+
+        public void ShowBackpack()
+        {
+        }
+    }
 }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Text;
 using System.Text.Json;
 using Spectre.Console;
+using Microsoft.Data.Sqlite;
 
 namespace Services
 {
@@ -97,22 +98,39 @@ namespace Services
         if (recommendedItems.Count == 0)
         {
             Console.WriteLine("Brak dodatkowych rekomendacji do plecaka.");
-            return;
         }
-
-        Console.WriteLine("Polecane rzeczy do plecaka:");
-        foreach (string item in recommendedItems)
+        else
         {
-            Console.WriteLine($"- {item}");
+            Console.WriteLine("Polecane rzeczy do plecaka:");
+            foreach (string item in recommendedItems)
+            {
+                Console.WriteLine($"- {item}");
+            }
         }
 
         //Chosee recomended items to save
-        var choices = AnsiConsole.Prompt(
-                    new MultiSelectionPrompt<InterestToChoose>()
-                    .Title("Select an [green]environment[/]:")
+        List<string> choices = new List<string>();
+        if (recommendedItems.Count > 0)
+        {
+            var selectedRecommendedItems = AnsiConsole.Prompt(
+                new MultiSelectionPrompt<string>()
+                    .Title("Select recommended items for your backpack:")
                     .AddChoices(recommendedItems));
-            BackPackFactory.Create("normal");
-            
+
+            choices.AddRange(selectedRecommendedItems);
+        }
+
+        Console.WriteLine("Add your own items. Press Enter without text to finish.");
+        while (true)
+        {
+            string customItem = Console.ReadLine()?.Trim() ?? string.Empty;
+            if (string.IsNullOrWhiteSpace(customItem))
+            {
+                break;
+            }
+
+            choices.Add(customItem);
+        }
 
         //Choose oprion savae
         var userChoice = AnsiConsole.Prompt(
@@ -123,9 +141,34 @@ namespace Services
             switch (userChoice)
             {
                 case "1: Yes":
+                    if (choices.Count == 0)
+                    {
+                        Console.WriteLine("No backpack items selected.");
+                        break;
+                    }
 
+                    using (SqliteConnection connection = new SqliteConnection("Data Source=Models/travel.db"))
+                    {
+                        connection.Open();
 
-                    
+                        using SqliteCommand command = connection.CreateCommand();
+                        command.CommandText = "INSERT INTO BackpackItems (Destination, Item, CreatedAt) VALUES (@destination, @item, @createdAt)";
+
+                        foreach (string item in choices.Distinct())
+                        {
+                            command.Parameters.Clear();
+                            command.Parameters.AddWithValue("@destination", TravelLocation);
+                            command.Parameters.AddWithValue("@item", item);
+                            command.Parameters.AddWithValue("@createdAt", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                            command.ExecuteNonQuery();
+                        }
+                    }
+
+                    Console.WriteLine("Backpack saved.");
+                    break;
+
+                case "2: No":
+                    break;
             }
 
     }
