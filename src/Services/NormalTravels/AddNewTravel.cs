@@ -23,17 +23,21 @@ public class AddNewTravel
                         switch (travelKind)
                         {
                             case "1: Standard travel":
+                            {
+                            string startDate = "";
+                            string endDate = "";
                             while (true)
                                 {
                                    
                                     try{
                                         //Start
                                         Console.WriteLine("Start Date (yyyy-mm-dd)");
-                                        string startDate = Console.ReadLine()?.Trim() ?? "";
-                                        
+                                        startDate = Console.ReadLine()?.Trim() ?? "";
+
                                         //End
                                         Console.WriteLine("End Date (yyyy-mm-dd)");
-                                        string endDate = Console.ReadLine()?.Trim() ?? "";
+                                        endDate = Console.ReadLine()?.Trim() ?? "";
+                                        break;
                                     }
                                     catch(Exception e)
                                     {
@@ -89,13 +93,20 @@ public class AddNewTravel
 
                                    Console.WriteLine($"Description: {WeatherData?.Description}");
                                    Console.WriteLine($"Temperature: {WeatherData?.Temperature}");
-                                   Console.WriteLine($"Wind: {WeatherData?.Wind}");
+                                   Console.WriteLine($": {WeatherData?.Wind}");
+
+                                   Console.WriteLine("Weather");
+                                    var WeatherChart = new BarChart()
+                                        .Label("[bold underline]Fruit Sales[/]")
+                                        .AddItem("Temperature:", WeatherData?.Temperature, Color.Orange1)
+                                        .AddItem("Wind", WeatherData?.Wind, Color.Blue);
+                                    
+                                    AnsiConsole.Write(WeatherChart);
+                                    Console.WriteLine($"{WeatherData?.Description}");
 
 
 
                                    //TravelPlan
-                                    Console.WriteLine("Make baackpack");
-                                    string UserBackpackChoose = Console.ReadLine() ?? "";
                                     var travelPlan = new TravelPlan(PlacesData?.DisplayName?.Text, WeatherData );
                                     Console.WriteLine("Recomended Atractions");
                                     var tripContext = new TripContext
@@ -142,6 +153,7 @@ public class AddNewTravel
                                    }
                                 }
                                 break;
+                            }
 
                             case  "2: Mountain Teavel":
 

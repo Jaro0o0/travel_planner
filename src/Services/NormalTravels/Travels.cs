@@ -18,18 +18,32 @@ namespace Services
                 using SqliteCommand command = connection.CreateCommand();
 
                 //Polly jesli nie ma nic w bazie\
-                command.CommandText = "SELECT Id, Destination, StartDate, EndDate FROM Trips";
+                command.CommandText = "SELECT * FROM Trips";
 
                 using SqliteDataReader reader = command.ExecuteReader();
                 bool hasTravels = false;
 
+                //Create table for dataa
+                var table = new Table();
+                   table.AddColumn("[green]Id[/]");
+                    table.AddColumn("[green]Destination[/]");
+                    table.AddColumn("[green]StartDate[/]");
+                    table.AddColumn("[green]EndDate[/]");
+                    table.AddColumn("[green]Backpack[/]");
+                //Display
                 while (reader.Read())
                 {
-                    hasTravels = true;
-                    Console.WriteLine(
-                        $"{reader.GetInt64(0)} | {reader.GetString(1)} | " +
-                        $"{reader.GetString(2)} - {reader.GetString(3)}");
 
+
+                    hasTravels = true;
+                    table.AddRow($"{reader.GetInt64(0)}");
+                    table.AddRow($"{reader.GetString(1)}");
+                    table.AddRow($"{reader.GetString(2)}");
+                    table.AddRow($"{reader.GetString(3)}");
+                    table.AddRow($"{reader.GetString(3)}");
+
+                 
+                        
                     using SqliteCommand backpackCommand = connection.CreateCommand();
                     backpackCommand.CommandText =
                         "SELECT DISTINCT Item FROM BackpackItems WHERE Destination = @destination ORDER BY Item";
@@ -54,7 +68,10 @@ namespace Services
                     {
                         Console.WriteLine("  Plecak: (brak)");
                     }
+
                 }
+
+                AnsiConsole.Write(table);
 
 
                 //Dynamic Select options
