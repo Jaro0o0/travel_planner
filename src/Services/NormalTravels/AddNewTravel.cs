@@ -98,8 +98,8 @@ public class AddNewTravel
                                    Console.WriteLine("Weather");
                                     var WeatherChart = new BarChart()
                                         .Label("[bold underline]Fruit Sales[/]")
-                                        .AddItem("Temperature:", WeatherData?.Temperature, Color.Orange1)
-                                        .AddItem("Wind", WeatherData?.Wind, Color.Blue);
+                                        .AddItem("Temperature:", WeatherData?.Temperature ?? 0, Color.Orange1)
+                                        .AddItem("Wind", WeatherData?.Wind ?? 0, Color.Blue);
                                     
                                     AnsiConsole.Write(WeatherChart);
                                     Console.WriteLine($"{WeatherData?.Description}");

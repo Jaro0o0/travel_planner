@@ -17,7 +17,7 @@ namespace Services
 
                 using SqliteCommand command = connection.CreateCommand();
 
-                //Polly jesli nie ma nic w bazie\
+                
                 command.CommandText = "SELECT * FROM Trips";
 
                 using SqliteDataReader reader = command.ExecuteReader();
@@ -30,17 +30,14 @@ namespace Services
                     table.AddColumn("[green]StartDate[/]");
                     table.AddColumn("[green]EndDate[/]");
                     table.AddColumn("[green]Backpack[/]");
+
                 //Display
                 while (reader.Read())
                 {
 
 
                     hasTravels = true;
-                    table.AddRow($"{reader.GetInt64(0)}");
-                    table.AddRow($"{reader.GetString(1)}");
-                    table.AddRow($"{reader.GetString(2)}");
-                    table.AddRow($"{reader.GetString(3)}");
-                    table.AddRow($"{reader.GetString(3)}");
+                    table.AddRow($"{reader.GetInt64(0)}", reader.GetString(1), reader.GetString(2), reader.GetString(3), "");
 
                  
                         
