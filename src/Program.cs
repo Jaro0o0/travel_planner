@@ -12,17 +12,8 @@ using Spectre.Console;
         // diaspley equipment
         static async Task Main()
         {
-            //Dynamczine
-            new DataBase().CreateDatabase();
-
-            Console.WriteLine("To better experince you can add your interests do you wanto do that (y/n)");
-            string UserChoose = Console.ReadLine().Trim().ToLower() ?? "";
-
-            if(UserChoose == "y"){
-                await UserInterests.SelectUserInterests();
-
-            }            
-            else
+          
+           
             {
                 //Home Menu 
                 while (true)
@@ -77,6 +68,11 @@ using Spectre.Console;
                 }
             }
            
+        }
+
+        public  async Task FirstUserChoice()
+        {
+        
         }
 
     }

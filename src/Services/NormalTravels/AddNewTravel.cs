@@ -25,8 +25,35 @@ public class AddNewTravel
                             case "1: Standard travel":
                                 Console.WriteLine("Start Date (yyyy-mm-dd)");
                                 string startDate = Console.ReadLine()?.Trim() ?? "";
+                                
+                                if (string.IsNullOrWhiteSpace(startDate)){
+                                    startDate = DateTime.Now.ToString("yyyy-MM-dd");
+                                }
+
+                                
                                 Console.WriteLine("End Date (yyyy-mm-dd)");
                                 string endDate = Console.ReadLine()?.Trim() ?? "";
+
+                                if(DateTime.Parse(startDate) > DateTime.Parse(endDate)){
+                                    Console.WriteLine("Start date cannot be after end date.");
+                                    return;
+                                }
+
+                                if(startDate == endDate){
+                                    Console.WriteLine("Start date and end date cannot be the same.");
+                                    return;
+                                }
+                                
+                                if(DateTime.Parse(startDate) < DateTime.Now){
+                                    Console.WriteLine("Start date cannot be in the past.");
+                                    return;
+                                }
+
+                                if(DateTime.Parse(endDate) < DateTime.Now){
+                                    Console.WriteLine("End date cannot be in the past.");
+                                    return;
+                                }
+                                //Travel place
                                 Console.WriteLine("Where you wanto to travel");
                                 string travelPlace = Console.ReadLine()?.Trim() ?? "";
                                 //Travel place info
