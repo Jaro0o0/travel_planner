@@ -23,7 +23,10 @@ public class AddNewTravel
                         switch (travelKind)
                         {
                             case "1: Standard travel":
-                                
+                                Console.WriteLine("Start Date (yyyy-mm-dd)");
+                                string startDate = Console.ReadLine()?.Trim() ?? "";
+                                Console.WriteLine("End Date (yyyy-mm-dd)");
+                                string endDate = Console.ReadLine()?.Trim() ?? "";
                                 Console.WriteLine("Where you wanto to travel");
                                 string travelPlace = Console.ReadLine()?.Trim() ?? "";
                                 //Travel place info
@@ -83,8 +86,8 @@ public class AddNewTravel
                                         using SqliteCommand command = connection.CreateCommand();
                                         command.CommandText = "INSERT INTO Trips (Destination, StartDate, EndDate) VALUES (@destination, @startDate, @endDate)";
                                         command.Parameters.AddWithValue("@destination", PlacesData?.DisplayName?.Text ?? travelPlace);
-                                        command.Parameters.AddWithValue("@startDate", DateTime.Now.ToString("yyyy-MM-dd"));
-                                        command.Parameters.AddWithValue("@endDate", DateTime.Now.ToString("yyyy-MM-dd"));
+                                        command.Parameters.AddWithValue("@startDate", string.IsNullOrWhiteSpace(startDate) ? DateTime.Now.ToString("yyyy-MM-dd") : startDate);
+                                        command.Parameters.AddWithValue("@endDate", string.IsNullOrWhiteSpace(endDate) ? DateTime.Now.ToString("yyyy-MM-dd") : endDate);
 
                                         command.ExecuteNonQuery();
 

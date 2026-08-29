@@ -29,6 +29,31 @@ namespace Services
                     Console.WriteLine(
                         $"{reader.GetInt64(0)} | {reader.GetString(1)} | " +
                         $"{reader.GetString(2)} - {reader.GetString(3)}");
+
+                    using SqliteCommand backpackCommand = connection.CreateCommand();
+                    backpackCommand.CommandText =
+                        "SELECT DISTINCT Item FROM BackpackItems WHERE Destination = @destination ORDER BY Item";
+                    backpackCommand.Parameters.AddWithValue("@destination", reader.GetString(1));
+
+                    using SqliteDataReader backpackReader = backpackCommand.ExecuteReader();
+                    var backpackItems = new List<string>();
+                    while (backpackReader.Read())
+                    {
+                        backpackItems.Add(backpackReader.GetString(0));
+                    }
+
+                    if (backpackItems.Count > 0)
+                    {
+                        Console.WriteLine("  Plecak:");
+                        foreach (string item in backpackItems)
+                        {
+                            Console.WriteLine($"  - {item}");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("  Plecak: (brak)");
+                    }
                 }
 
 
