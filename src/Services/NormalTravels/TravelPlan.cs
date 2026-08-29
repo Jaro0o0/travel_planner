@@ -115,7 +115,13 @@ namespace Services
             var selectedRecommendedItems = AnsiConsole.Prompt(
                 new MultiSelectionPrompt<string>()
                     .Title("Select recommended items for your backpack:")
-                    .AddChoices(recommendedItems));
+                    .AddChoices(recommendedItems.Append("0: Exit")));
+
+            if (selectedRecommendedItems.Contains("0: Exit"))
+                {
+                    
+                    return;
+                }        
 
             choices.AddRange(selectedRecommendedItems);
         }

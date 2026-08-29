@@ -92,7 +92,7 @@ public class AddNewTravel
                                    var WeatherData = await WeatherAPi.GetWeather(PlacesData?.FormattedAddress);
 
                                    Console.WriteLine($"Description: {WeatherData?.Description}");
-                                   Console.WriteLine($"Temperature: {WeatherData?.Temperature}");
+                                   Console.WriteLine($"Temperature: °C { Convert.ToDecimal(Math.Round(WeatherData?.Temperature - 273.15), 2) }");
                                    Console.WriteLine($": {WeatherData?.Wind}");
 
                                    Console.WriteLine("Weather");

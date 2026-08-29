@@ -135,9 +135,14 @@ namespace Services
 
                 var userChoices = AnsiConsole.Prompt(
                     new MultiSelectionPrompt<string>()
-                        .Title("Select travel to delete [green]Trials_planner[/]:")
-                        .AddChoices(travelsToDelete.Keys));
-                        
+                        .Title("Select travel to delete [green]Trials_planner[/] (or pick '0: Exit' to cancel):")
+                        .AddChoices(travelsToDelete.Keys.Append("0: Exit")));
+
+                if (userChoices.Contains("0: Exit"))
+                {
+                    
+                    return;
+                }
 
                 command.CommandText = "DELETE FROM Trips WHERE Id = @id";
                 foreach (string travel in userChoices)
