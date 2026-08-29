@@ -12,6 +12,7 @@ using Spectre.Console;
         // diaspley equipment
         static async Task Main()
         {
+            //Dynamczine
             new DataBase().CreateDatabase();
 
             Console.WriteLine("To better experince you can add your interests do you wanto do that (y/n)");
@@ -26,9 +27,26 @@ using Spectre.Console;
                 //Home Menu 
                 while (true)
                 {
+
+                    //Logo
+                    var appName = new FigletText("TravelPlanner")
+{
+                        Color = Color.Blue,
+                        Justification = Justify.Center
+                    };
+                    
+                    var version = new Text("Version Beta", new Style(Color.Grey))
+                    {
+                        Justification = Justify.Center
+                    };
+                    
+                    AnsiConsole.Write(appName);
+                    AnsiConsole.Write(version);
+                    
+
                     var userChoice = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
-                    .Title("Select Option [green]Trials_planner[/]:")
+                    .Title("Select [green]Option[/]:")
                     .AddChoices("1: Add new trip", "2: Show Travel list", "3: Exit" ));
 
 
@@ -52,9 +70,7 @@ using Spectre.Console;
                             return;
                             
 
-                        default:
-                            Console.WriteLine("Erro");
-                            break;
+                        
 
                         
                     }

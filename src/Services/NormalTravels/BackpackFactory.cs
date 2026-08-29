@@ -16,11 +16,7 @@ namespace Services
                 return new Backpack();
             }
 
-            if (type == "mountain")
-            {
-                
-            }
-
+           
             throw new ArgumentException("Unknown backpack type");
         }
         

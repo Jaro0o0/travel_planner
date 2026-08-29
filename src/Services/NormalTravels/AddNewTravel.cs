@@ -23,6 +23,7 @@ public class AddNewTravel
                         switch (travelKind)
                         {
                             case "1: Standard travel":
+                                
                                 Console.WriteLine("Where you wanto to travel");
                                 string travelPlace = Console.ReadLine()?.Trim() ?? "";
                                 //Travel place info

@@ -17,27 +17,35 @@ namespace Services
 
                 using SqliteCommand command = connection.CreateCommand();
 
-                //Polly jesli nie ma nic w bazie
+                //Polly jesli nie ma nic w bazie\
                 command.CommandText = "SELECT Id, Destination, StartDate, EndDate FROM Trips";
 
                 using SqliteDataReader reader = command.ExecuteReader();
+                bool hasTravels = false;
 
                 while (reader.Read())
                 {
+                    hasTravels = true;
                     Console.WriteLine(
                         $"{reader.GetInt64(0)} | {reader.GetString(1)} | " +
                         $"{reader.GetString(2)} - {reader.GetString(3)}");
                 }
 
+
+                //Dynamic Select options
+                string[] promt = hasTravels
+                    ? new[] { "1: Delete", "2: Back to home" }
+                    : new[] { "1: Back to home" };
+                
                 //Select
                 var userChoice = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
                     .Title("Options [green]Trials_planner[/]:")
-                    .AddChoices( "1: Delete", "2: Back to home" ));
+                    .AddChoices(promt));
 
                 switch (userChoice)
                 {
-                    case "1: Edit":
+                    case "1: Delete":
                         DeleteTravel();
                         break;
 
@@ -52,6 +60,7 @@ namespace Services
 
             }
 
+            //DELETE_METHOD
             public static void DeleteTravel()
             {
                 using SqliteConnection connection = new SqliteConnection("Data Source=Models/travel.db");  
@@ -59,28 +68,58 @@ namespace Services
 
                 using SqliteCommand command = connection.CreateCommand();
 
-                //Polly jesli nie ma nic w bazie
+            //Polly jesli nie ma nic w bazie
+            
                 command.CommandText = "SELECT Id, Destination, StartDate, EndDate FROM Trips";
+            
+          
+                
+            
+               
 
-                using SqliteDataReader reader = command.ExecuteReader();
+                Dictionary<string, long> travelsToDelete = new Dictionary<string, long>();
 
-                while (reader.Read())
+                using (SqliteDataReader reader = command.ExecuteReader())
                 {
-                    
-                        var userChoices = AnsiConsole.Prompt(
-                        new MultiSelectionPrompt<string>()
-                        .Title("Select travel to delete [green]Trials_planner[/]:")
-                        .AddChoices(  $"{reader.GetInt64(0)} | {reader.GetString(1)} | " +
-                        $"{reader.GetString(2)} - {reader.GetString(3)}" ));
-
-                        //Delete querry
-                        command.CommandText  = $"DELETE FROM Trips WHERER Id = {userChoices }";
-                    
+                    while (reader.Read())
+                    {
+                        string travel = $"{reader.GetInt64(0)} | {reader.GetString(1)} | " +
+                            $"{reader.GetString(2)} - {reader.GetString(3)}";
+                        travelsToDelete.Add(travel, reader.GetInt64(0));
+                    }
                 }
 
+                if (travelsToDelete.Count == 0)
+                {
+                    Console.WriteLine("No travels to delete.");
+                    var userChoice = AnsiConsole.Prompt(
+                    new SelectionPrompt<string>()
+                    .Title("Do yo wanna add? [green]Trials_planner[/]:")
+                    .AddChoices("1: Yes", "2: No" ));
+                    
+                    
+                    
 
-            
+                    return;
+                }
+
+                var userChoices = AnsiConsole.Prompt(
+                    new MultiSelectionPrompt<string>()
+                        .Title("Select travel to delete [green]Trials_planner[/]:")
+                        .AddChoices(travelsToDelete.Keys));
+
+                command.CommandText = "DELETE FROM Trips WHERE Id = @id";
+                foreach (string travel in userChoices)
+                {
+                    command.Parameters.Clear();
+                    command.Parameters.AddWithValue("@id", travelsToDelete[travel]);
+                    command.ExecuteNonQuery();
+                }
+
+                Console.WriteLine("Selected travels deleted.");
 
         }
+
+     
     }
 }
