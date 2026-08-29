@@ -37,10 +37,7 @@ namespace Services
 
 
                     hasTravels = true;
-                    table.AddRow($"{reader.GetInt64(0)}", reader.GetString(1), reader.GetString(2), reader.GetString(3), "");
 
-                 
-                        
                     using SqliteCommand backpackCommand = connection.CreateCommand();
                     backpackCommand.CommandText =
                         "SELECT DISTINCT Item FROM BackpackItems WHERE Destination = @destination ORDER BY Item";
@@ -53,18 +50,11 @@ namespace Services
                         backpackItems.Add(backpackReader.GetString(0));
                     }
 
-                    if (backpackItems.Count > 0)
-                    {
-                        Console.WriteLine("  Plecak:");
-                        foreach (string item in backpackItems)
-                        {
-                            Console.WriteLine($"  - {item}");
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("  Plecak: (brak)");
-                    }
+                    string backpackColumn = backpackItems.Count > 0
+                        ? string.Join(", ", backpackItems)
+                        : "(brak)";
+
+                    table.AddRow($"{reader.GetInt64(0)}", reader.GetString(1), reader.GetString(2), reader.GetString(3), backpackColumn);
 
                 }
 
@@ -147,6 +137,7 @@ namespace Services
                     new MultiSelectionPrompt<string>()
                         .Title("Select travel to delete [green]Trials_planner[/]:")
                         .AddChoices(travelsToDelete.Keys));
+                        
 
                 command.CommandText = "DELETE FROM Trips WHERE Id = @id";
                 foreach (string travel in userChoices)
