@@ -56,35 +56,41 @@ public class AddNewTravel
                                 while(true){
                                     try
                                     {
+                                        Console.WriteLine("Start Date (yyyy-mm-dd)");
+                                        startDate = Console.ReadLine()?.Trim() ?? "";
+
+                                        Console.WriteLine("End Date (yyyy-mm-dd)");
+                                        endDate = Console.ReadLine()?.Trim() ?? "";
+
                                         if(DateTime.Parse(startDate) > DateTime.Parse(endDate)){
                                             Console.WriteLine("Start date cannot be after end date.");
-                                            return;
+                                            continue;
                                         }
 
-                                        if(startDate == endDate){
+                                        if(DateTime.Parse(startDate) == DateTime.Parse(endDate)){
                                             Console.WriteLine("Start date and end date cannot be the same.");
-                                            return;
+                                            continue;
                                         }
-                                        
+
                                         if(DateTime.Parse(startDate) < DateTime.Now){
                                             Console.WriteLine("Start date cannot be in the past.");
-                                            return;
+                                            continue;
                                         }
 
                                         if(DateTime.Parse(endDate) < DateTime.Now){
                                             Console.WriteLine("End date cannot be in the past.");
-                                            return;
+                                            continue;
                                         }
 
                                         if((DateTime.Parse(endDate) - DateTime.Parse(startDate)).TotalDays > 12){
                                             Console.WriteLine("Please enter a correct date.");
-                                            return;
+                                            continue;
+                                        }
+                                        break;
                                     }
-                                    }
-                                    catch (FormatException)
+                                    catch (Exception)
                                     {
                                         Console.WriteLine("Please enter a correct date.");
-                                        
                                     }
                                 };
 
