@@ -1,7 +1,7 @@
 using Microsoft.Data.Sqlite;
 using Spectre.Console;
 
-namespace Services
+namespace TravelPlanner.Application
 {
     
 

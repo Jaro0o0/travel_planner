@@ -1,5 +1,4 @@
-using Services;
-using ShareTravelPalace;
+namespace TravelPlanner.Domain.Models;
 
 public class ContextEngine
 {

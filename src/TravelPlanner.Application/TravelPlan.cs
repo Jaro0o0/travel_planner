@@ -6,8 +6,10 @@ using System.Text;
 using System.Text.Json;
 using Spectre.Console;
 using Microsoft.Data.Sqlite;
+using TravelPlanner.Domain.Models;
+using TravelPlanner.Infrastructure.Weather;
 
-namespace Services
+namespace TravelPlanner.Application
 {
 
     public class Clothes {
@@ -24,7 +26,7 @@ namespace Services
 
     public class  TravelPlan
     {
-        public string TravelLocation {get; set;} = string.Empty;
+        public string TravelLocation {get; set;} = "";
         public WeatherData? Weather {get; set;}
         public IBackpack? Backpack {get; set;}
         private readonly Clothes clothes = new Clothes();
@@ -58,7 +60,7 @@ namespace Services
 
     public async Task GetAtractions(TripContext context, IEnumerable<string> googleTypes)
     {
-        var places = await ShareTravelPalace.PlacesService.PlaceAttraactions(
+        var places = await PlacesService.PlaceAttraactions(
             TravelLocation,
             googleTypes);
 

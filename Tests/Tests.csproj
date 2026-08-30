@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../src/first.cs.csproj" />
+    <ProjectReference Include="../src/TravelPlanner.Cli/first.cs.csproj" />
   </ItemGroup>
 
 </Project>

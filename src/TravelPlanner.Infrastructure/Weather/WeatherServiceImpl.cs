@@ -3,7 +3,7 @@ using System.Net.Http.Json;
 using System.Text.Json;
 
 
-namespace Services
+namespace TravelPlanner.Infrastructure.Weather
 {
 
     public class Lart

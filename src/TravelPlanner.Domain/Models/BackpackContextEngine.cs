@@ -1,3 +1,5 @@
+namespace TravelPlanner.Domain.Models;
+
 public class BackpackContextEngine
 {
     public List<string> GetRecommendedItems(BackPackContext context)

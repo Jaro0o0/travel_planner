@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TravelPlanner.Application\TravelPlanner.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="DotNetEnv" Version="3.2.0" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.10" />
     <PackageReference Include="Pastel" Version="8.0.0" />

@@ -2,29 +2,10 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using DotNetEnv;
+using TravelPlanner.Domain.Models;
 
-namespace ShareTravelPalace;
+namespace TravelPlanner.Application;
 
-public class Place
-{
-    public string? Id { get; set; }
-    public DisplayName? DisplayName { get; set; }
-    public string? FormattedAddress { get; set; }
-    public Location? Location { get; set; }
-    public List<string>? Types { get; set; }
-    public string? PrimaryType { get; set; }
-}
-
-public class DisplayName
-{
-    public string? Text { get; set; }
-}
-
-public class Location
-{
-    public double Latitude { get; set; }
-    public double Longitude { get; set; }
-}
 
 public class PlacesResponse
 {
@@ -92,7 +73,7 @@ public class PlacesService
                 return null;
             }
 
-            // Zamiana JSON -> PlacesResponse
+           
             PlacesResponse? result =
                 JsonSerializer.Deserialize<PlacesResponse>(
                     data,
@@ -101,7 +82,7 @@ public class PlacesService
                         PropertyNameCaseInsensitive = true
                     });
 
-            // Zwracamy pierwsze znalezione miejsce
+           
             return result?.Places?.FirstOrDefault();
         }
         catch (HttpRequestException e)

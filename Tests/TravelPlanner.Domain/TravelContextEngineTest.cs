@@ -1,5 +1,5 @@
-using ShareTravelPalace;
-using Xunit;
+using TravelPlanner.Domain.Models;
+
 
 public class TravelContextEngineTests
 {

@@ -1,6 +1,6 @@
 
 
-namespace Services
+namespace TravelPlanner.Application
 {
     public interface IBackpack
     {

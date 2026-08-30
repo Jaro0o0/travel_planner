@@ -2,9 +2,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.CompilerServices;
 using Microsoft.Data.Sqlite;
 
+namespace TravelPlanner.Infrastructure.Persistence;
+
 public class DataBase
 {
-    private readonly string ConectString = "Data Source=Models/travel.db";
+    private readonly string ConectString = "Data Source=../travel.db";
 
     public void CreateDatabase()
     {

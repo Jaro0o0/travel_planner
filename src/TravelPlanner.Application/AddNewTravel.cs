@@ -1,11 +1,12 @@
 using System.Net;
 using Microsoft.Data.Sqlite;
-using ShareTravelPalace;
 using Spectre.Console;
+using TravelPlanner.Domain.Models;
+using TravelPlanner.Infrastructure.Weather;
 
 
 
-namespace  Services
+namespace TravelPlanner.Application
 {
     
 
@@ -27,31 +28,6 @@ public class AddNewTravel
                             {
                             string startDate = "";
                             string endDate = "";
-                            while (true)
-                                {
-                                   
-                                    try{
-                                        //Start
-                                        Console.WriteLine("Start Date (yyyy-mm-dd)");
-                                        startDate = Console.ReadLine()?.Trim() ?? "";
-
-                                        //End
-                                        Console.WriteLine("End Date (yyyy-mm-dd)");
-                                        endDate = Console.ReadLine()?.Trim() ?? "";
-                                        break;
-                                    }
-                                    catch(Exception)
-                                    {
-                                        Console.WriteLine("Wrong format");
-                                        continue;
-                                    }
-                                };
-                            
-
-
-                                if (string.IsNullOrWhiteSpace(startDate)){
-                                        startDate = DateTime.Now.ToString("yyyy-MM-dd");
-                                }
 
                                 while(true){
                                     try
@@ -104,7 +80,7 @@ public class AddNewTravel
 
                                    if (PlacesData is null)
                                    {
-                                       Console.WriteLine("Nie udało się znaleźć wybranego miejsca.");
+                                       Console.WriteLine("Could not find the selected place.");
                                        return;
                                    }
 
@@ -116,7 +92,7 @@ public class AddNewTravel
 
                                    Console.WriteLine($"Description: {WeatherData?.Description}");
                                    Console.WriteLine($"Temperature: { Convert.ToDecimal(Math.Round((WeatherData?.Temperature ?? 0) - 273.15, 2)) } °C ");
-                                   Console.WriteLine($": {WeatherData?.Wind} m/s");
+                                   Console.WriteLine($"Wind: {WeatherData?.Wind} m/s");
 
                                
 
