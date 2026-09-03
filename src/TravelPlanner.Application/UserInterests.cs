@@ -1,5 +1,6 @@
 using Spectre.Console;
 using Microsoft.Data.Sqlite;
+using TravelPlanner.Infrastructure.Persistence;
 
 
 namespace TravelPlanner.Application
@@ -32,7 +33,7 @@ namespace TravelPlanner.Application
                 UserInterests.Add(Console.ReadLine() ?? "");
                 
 
-                using SqliteConnection connection = new SqliteConnection("Data Source=Models/travel.db");
+                using SqliteConnection connection = new SqliteConnection(DataBase.ConnectionString);
                 connection.Open();
 
                 using SqliteCommand command = connection.CreateCommand();

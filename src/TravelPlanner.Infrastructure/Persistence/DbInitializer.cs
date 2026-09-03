@@ -1,19 +1,24 @@
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Runtime.CompilerServices;
 using Microsoft.Data.Sqlite;
 
 namespace TravelPlanner.Infrastructure.Persistence;
 
 public class DataBase
 {
-    private readonly string ConectString = "Data Source=../travel.db";
+    private static string DatabasePath =>
+        Path.GetFullPath(Path.Combine(
+            AppContext.BaseDirectory,
+            "..", "..", "..", "..",
+            "TravelPlanner.Infrastructure",
+            "travel.db"));
+
+    public static string ConnectionString => $"Data Source={DatabasePath}";
 
     public void CreateDatabase()
     {
+        if (File.Exists(DatabasePath))
+            return;
 
-        
-
-        using SqliteConnection connection = new SqliteConnection(ConectString);
+        using SqliteConnection connection = new($"Data Source={DatabasePath}");
         connection.Open();
 
         using SqliteCommand command = connection.CreateCommand();

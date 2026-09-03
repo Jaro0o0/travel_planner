@@ -1,5 +1,6 @@
 using Microsoft.Data.Sqlite;
 using Spectre.Console;
+using TravelPlanner.Infrastructure.Persistence;
 
 namespace TravelPlanner.Application
 {
@@ -12,7 +13,7 @@ namespace TravelPlanner.Application
             {
                 
             
-                using SqliteConnection connection = new SqliteConnection("Data Source=Models/travel.db");  
+                using SqliteConnection connection = new SqliteConnection(DataBase.ConnectionString);  
                 connection.Open();
 
                 using SqliteCommand command = connection.CreateCommand();
@@ -52,7 +53,7 @@ namespace TravelPlanner.Application
 
                     string backpackColumn = backpackItems.Count > 0
                         ? string.Join(", ", backpackItems)
-                        : "(brak)";
+                        : "(none)";
 
                     table.AddRow($"{reader.GetInt64(0)}", reader.GetString(1), reader.GetString(2), reader.GetString(3), backpackColumn);
 
@@ -92,12 +93,12 @@ namespace TravelPlanner.Application
             //DELETE_METHOD
             public static void DeleteTravel()
             {
-                using SqliteConnection connection = new SqliteConnection("Data Source=Models/travel.db");  
+                using SqliteConnection connection = new SqliteConnection(DataBase.ConnectionString);  
                 connection.Open();
 
                 using SqliteCommand command = connection.CreateCommand();
 
-                //Polly jesli nie ma nic w bazie
+                // Probably if there is nothing in the database
                 command.CommandText = "SELECT Id, Destination, StartDate, EndDate FROM Trips";
             
                

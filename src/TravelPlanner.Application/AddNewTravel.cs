@@ -3,6 +3,7 @@ using Microsoft.Data.Sqlite;
 using Spectre.Console;
 using TravelPlanner.Domain.Models;
 using TravelPlanner.Infrastructure.Weather;
+using TravelPlanner.Infrastructure.Persistence;
 
 
 
@@ -121,7 +122,7 @@ public class AddNewTravel
                                         //Equipment 
                                         BackPackFactory.Create("normal");
                                         
-                                        using SqliteConnection connection = new SqliteConnection("Data Source=Models/travel.db");
+                                        using SqliteConnection connection = new SqliteConnection(DataBase.ConnectionString);
                                         connection.Open();
 
 

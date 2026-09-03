@@ -1,6 +1,7 @@
 ﻿
 using Spectre.Console;
 using TravelPlanner.Application;
+using TravelPlanner.Infrastructure.Persistence;
 
 
     class Program
@@ -9,8 +10,8 @@ using TravelPlanner.Application;
 
         static void Main()
         {
-          
-           
+            new DataBase().CreateDatabase();
+
             {
                 //Home Menu 
                 while (true)

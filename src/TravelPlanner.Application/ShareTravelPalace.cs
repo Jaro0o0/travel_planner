@@ -62,7 +62,7 @@ public class PlacesService
 
             string data = await response.Content.ReadAsStringAsync();
 
-            // Sprawdzamy, czy API zwróciło błąd
+            // Check if the API returned an error
             if (!response.IsSuccessStatusCode)
             {
                 Console.WriteLine(

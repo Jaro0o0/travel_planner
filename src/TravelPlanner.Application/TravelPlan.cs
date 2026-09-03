@@ -8,6 +8,7 @@ using Spectre.Console;
 using Microsoft.Data.Sqlite;
 using TravelPlanner.Domain.Models;
 using TravelPlanner.Infrastructure.Weather;
+using TravelPlanner.Infrastructure.Persistence;
 
 namespace TravelPlanner.Application
 {
@@ -81,8 +82,8 @@ namespace TravelPlanner.Application
         foreach (var item in rankedPlaces)
         {
             Console.WriteLine($"- {item.Place.DisplayName?.Text}");
-            Console.WriteLine($"  Adres: {item.Place.FormattedAddress}");
-            Console.WriteLine($"  Wynik: {item.Score}");
+            Console.WriteLine($"  Address: {item.Place.FormattedAddress}");
+            Console.WriteLine($"  Score: {item.Score}");
         }
     }
 
@@ -148,7 +149,7 @@ namespace TravelPlanner.Application
                         break;
                     }
 
-                    using (SqliteConnection connection = new SqliteConnection("Data Source=Models/travel.db"))
+                    using (SqliteConnection connection = new SqliteConnection(DataBase.ConnectionString))
                     {
                         connection.Open();
 
