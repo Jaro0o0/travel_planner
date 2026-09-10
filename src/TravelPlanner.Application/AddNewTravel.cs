@@ -1,4 +1,3 @@
-using System.Net;
 using Microsoft.Data.Sqlite;
 using Spectre.Console;
 using TravelPlanner.Domain.Models;

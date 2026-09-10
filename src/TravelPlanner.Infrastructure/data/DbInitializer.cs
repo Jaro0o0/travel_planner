@@ -9,12 +9,13 @@ public class DataBase
             AppContext.BaseDirectory,
             "..", "..", "..", "..",
             "TravelPlanner.Infrastructure",
-            "travel.db"));
+            "data/travel.db"));
 
     public static string ConnectionString => $"Data Source={DatabasePath}";
 
     public void CreateDatabase()
     {
+        //Check file
         if (File.Exists(DatabasePath))
             return;
 

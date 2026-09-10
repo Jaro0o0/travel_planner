@@ -7,5 +7,5 @@
   <Folder Name="/src/TravelPlanner.Cli/">
     <Project Path="src/TravelPlanner.Cli/TravelPlanner.Cli.cs.csproj" />
   </Folder>
-  <Project Path="Tests/Tests.csproj" />
+  <Project Path="tests/Tests.csproj" />
 </Solution>

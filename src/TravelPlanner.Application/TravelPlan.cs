@@ -1,12 +1,7 @@
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Json;
-using System.Threading.Tasks;
-using System.Text;
-using System.Text.Json;
 using Spectre.Console;
 using Microsoft.Data.Sqlite;
 using TravelPlanner.Domain.Models;
+using TravelPlanner.Domain;
 using TravelPlanner.Infrastructure.Weather;
 using TravelPlanner.Infrastructure.Persistence;
 
