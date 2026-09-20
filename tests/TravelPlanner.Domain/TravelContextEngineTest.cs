@@ -1,51 +1,56 @@
 using TravelPlanner.Domain.Models;
+using TravelPlanner.Domain;
 
-
-public class TravelContextEngineTests
+namespace TravelPlanner.Tests
 {
-    //Rainy_Weather_Test
-    [Fact]
-    public void RainyWeatherTest()
+    public class TravelContextEngineTests
     {
-        // Arrange
-        var engine = new ContextEngine();
-        var place = new Place
+        //Rainy_Weather_Test
+        [Fact]
+        public void RainyWeatherTest()
         {
-            Types = new List<string> { "park","beach","ice_cream_shop" }
-        };
-        var context = new TripContext
+            // Arrange
+            var engine = new ContextEngine();
+            var place = new Place
+            {
+                Types = new List<string> { "park","beach","ice_cream_shop" }
+            };
+            var context = new TripContext
+            {
+                WeatherCondition = "rain"
+            };
+
+            // Act
+            var score = engine.ScorePlace(place, context);
+
+            // Assert
+            Assert.True(score < 0);
+        }
+
+        //Sunny_Weather_Test
+        [Fact]
+        public void SunnyWeatherTest()
         {
-            WeatherCondition = "rain"
-        };
+            // Arrange
+            var engine = new ContextEngine();
+            var place = new Place
+            {
+                Types = new List<string> { "park","beach","ice_cream_shop"   }
+            };
+            var context = new TripContext
+            {
+                WeatherCondition = "sunny",
+                Temperature = 30
+            };
 
-        // Act
-        var score = engine.ScorePlace(place, context);
+            // Act
+            var score = engine.ScorePlace(place, context);
 
-        // Assert
-        Assert.True(score < 0);
+            // Assert
+            Assert.True(score > 0);
+
+        }
     }
 
-    //Sunny_Weather_Test
-    [Fact]
-    public void SunnyWeatherTest()
-    {
-         // Arrange
-        var engine = new ContextEngine();
-        var place = new Place
-        {
-            Types = new List<string> { "park","beach","ice_cream_shop"   }
-        };
-        var context = new TripContext
-        {
-            WeatherCondition = "sunny",
-            Temperature = 30
-        };
-
-         // Act
-        var score = engine.ScorePlace(place, context);
-
-        // Assert
-        Assert.True(score > 0);
-
-    }
 }
+
